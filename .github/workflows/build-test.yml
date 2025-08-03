@@ -1,0 +1,70 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install
+          cd client && npm install
+
+      - name: Run unit tests
+        run: |
+          cd client && npm test -- --run
+
+      - name: Build application
+        run: |
+          cd client && npm run build
+
+      - name: Run E2E tests
+        run: |
+          cd client && npm run cypress:run
+        env:
+          CYPRESS_baseUrl: http://localhost:5178
+
+  # Optional: Deploy to Vercel (requires secrets setup)
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install
+          cd client && npm install
+
+      - name: Build frontend
+        run: cd client && npm run build
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          # Uncomment and configure these secrets for automated deployment
+          # See GITHUB_SECRETS_SETUP.md for setup instructions
+          # vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          # vercel-org-id: ${{ secrets.ORG_ID }}
+          # vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-args: "--prod"

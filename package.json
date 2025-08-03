@@ -21,13 +21,14 @@
   "scripts": {
     "start": "node server/server.js",
     "server": "nodemon server/server.js",
-    "client": "cd client && yarn dev",
+    "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "cd client && yarn build",
+    "build": "cd client && npm run build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "cd client && yarn preview",
+    "preview": "cd client && npm run preview",
     "seed-admin": "node server/seedAdmin.js",
-    "seed-projects": "node server/seedProjects.js"
+    "seed-projects": "node server/seedProjects.js",
+    "vercel-build": "npm run build"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
