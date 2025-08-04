@@ -9,41 +9,43 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    strategy:
+      matrix:
+        node-version: [18, 20]
 
-      - name: Setup Node.js
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: ${{ matrix.node-version }}
           cache: "npm"
 
-      - name: Install dependencies
-        run: |
-          npm install
-          cd client && npm install
+      - name: Install root dependencies
+        run: npm ci
 
-      - name: Run unit tests
-        run: |
-          cd client && npm test -- --run
+      - name: Install client dependencies
+        run: cd client && npm ci
 
-      - name: Build application
-        run: |
-          cd client && npm run build
+      - name: Run root tests
+        run: npm test
+
+      - name: Run client tests
+        run: cd client && npm test
 
       - name: Run E2E tests
-        run: |
-          cd client && npm run cypress:run
-        env:
-          CYPRESS_baseUrl: http://localhost:5178
+        run: cd client && npm run e2e
 
-  # Optional: Deploy to Vercel (requires secrets setup)
-  deploy:
-    needs: test
+  build-and-deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: test
+    if: github.ref == 'refs/heads/main'
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -51,20 +53,19 @@ jobs:
           node-version: "18"
           cache: "npm"
 
-      - name: Install dependencies
-        run: |
-          npm install
-          cd client && npm install
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install client dependencies
+        run: cd client && npm ci
 
       - name: Build frontend
         run: cd client && npm run build
 
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v20
+        uses: amondnet/vercel-action@v25
         with:
-          # Uncomment and configure these secrets for automated deployment
-          # See GITHUB_SECRETS_SETUP.md for setup instructions
-          # vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          # vercel-org-id: ${{ secrets.ORG_ID }}
-          # vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
           vercel-args: "--prod"
