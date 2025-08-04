@@ -62,6 +62,21 @@ jobs:
       - name: Build frontend
         run: cd client && npm run build
 
+      - name: Check Vercel secrets
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "Warning: VERCEL_TOKEN is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.ORG_ID }}" ]; then
+            echo "Warning: ORG_ID is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.PROJECT_ID }}" ]; then
+            echo "Warning: PROJECT_ID is not set"
+            exit 1
+          fi
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
