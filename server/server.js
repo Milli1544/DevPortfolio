@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
 const compression = require("compression"); // Add this line
+const fs = require("fs"); // Added for file system checks
 
 const contactRoutes = require("./routes/contactRoutes");
 const projectRoutes = require("./routes/projectRoutes");
@@ -44,9 +45,19 @@ console.log("Environment check:", {
   isProduction: isProduction
 });
 
+// Check if client/dist exists
+const clientDistPath = path.join(__dirname, "../client/dist");
+const distExists = fs.existsSync(clientDistPath);
+console.log("Client dist path:", clientDistPath);
+console.log("Client dist exists:", distExists);
+
 if (isProduction) {
   console.log("Serving static files from client/dist");
-  app.use(express.static(path.join(__dirname, "../client/dist")));
+  if (distExists) {
+    app.use(express.static(clientDistPath));
+  } else {
+    console.log("WARNING: client/dist does not exist! Build may have failed.");
+  }
 } else {
   console.log("Running in development mode - API only");
 }
@@ -79,12 +90,17 @@ app.use("/api/auth", authRoutes);
 
 // Root route - what happens when someone visits just "/"
 app.get("/", (req, res) => {
-  if (isProduction) {
+  if (isProduction && distExists) {
+    console.log("Serving React frontend from client/dist/index.html");
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   } else {
+    console.log("Serving API welcome page");
     res.send(`
         <h1>Welcome to My Portfolio Backend API</h1>
         <p>Server is running successfully on port ${PORT}</p>
+        <p><strong>Environment:</strong> ${process.env.NODE_ENV || 'development'}</p>
+        <p><strong>Render:</strong> ${process.env.RENDER || 'false'}</p>
+        <p><strong>Client dist exists:</strong> ${distExists}</p>
         <h3>Available Endpoints:</h3>
         <ul>
             <li>GET /api/contacts - Get all contacts</li>
@@ -98,7 +114,7 @@ app.get("/", (req, res) => {
 });
 
 // Catch-all route for client-side routing (in production or on Render)
-if (isProduction) {
+if (isProduction && distExists) {
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
