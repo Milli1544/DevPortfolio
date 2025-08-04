@@ -2,6 +2,16 @@ import "@testing-library/jest-dom";
 import { vi } from "vitest";
 import React from "react";
 
+// Mock IntersectionObserver
+Object.defineProperty(window, 'IntersectionObserver', {
+  writable: true,
+  value: vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  })),
+});
+
 // Mock framer-motion
 vi.mock("framer-motion", () => ({
   motion: {
