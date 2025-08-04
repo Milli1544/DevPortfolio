@@ -36,9 +36,19 @@ app.use(
   })
 );
 
-// Serve static files from client build (only in production)
-if (process.env.NODE_ENV === "production") {
+// Serve static files from client build (in production or on Render)
+const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER;
+console.log("Environment check:", {
+  NODE_ENV: process.env.NODE_ENV,
+  RENDER: process.env.RENDER,
+  isProduction: isProduction
+});
+
+if (isProduction) {
+  console.log("Serving static files from client/dist");
   app.use(express.static(path.join(__dirname, "../client/dist")));
+} else {
+  console.log("Running in development mode - API only");
 }
 
 // Import config
@@ -69,7 +79,7 @@ app.use("/api/auth", authRoutes);
 
 // Root route - what happens when someone visits just "/"
 app.get("/", (req, res) => {
-  if (process.env.NODE_ENV === "production") {
+  if (isProduction) {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   } else {
     res.send(`
@@ -87,8 +97,8 @@ app.get("/", (req, res) => {
   }
 });
 
-// Catch-all route for client-side routing (only in production)
-if (process.env.NODE_ENV === "production") {
+// Catch-all route for client-side routing (in production or on Render)
+if (isProduction) {
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
