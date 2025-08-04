@@ -24,6 +24,7 @@
     "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "node build.js",
+    "test": "cd client && npm test",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "cd client && npm run preview",
     "seed-admin": "node server/seedAdmin.js",

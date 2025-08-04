@@ -5,11 +5,22 @@ import React from "react";
 // Mock framer-motion
 vi.mock("framer-motion", () => ({
   motion: {
-    div: ({ children, ...props }) =>
-      React.createElement("div", props, children),
-    h1: ({ children, ...props }) => React.createElement("h1", props, children),
-    h2: ({ children, ...props }) => React.createElement("h2", props, children),
-    p: ({ children, ...props }) => React.createElement("p", props, children),
+    div: ({ children, ...props }) => {
+      const { initial, animate, transition, whileHover, whileTap, ...restProps } = props;
+      return React.createElement("div", restProps, children);
+    },
+    h1: ({ children, ...props }) => {
+      const { initial, animate, transition, ...restProps } = props;
+      return React.createElement("h1", restProps, children);
+    },
+    h2: ({ children, ...props }) => {
+      const { initial, animate, transition, ...restProps } = props;
+      return React.createElement("h2", restProps, children);
+    },
+    p: ({ children, ...props }) => {
+      const { initial, animate, transition, ...restProps } = props;
+      return React.createElement("p", restProps, children);
+    },
   },
   AnimatePresence: ({ children }) => children,
 }));
@@ -19,4 +30,17 @@ vi.mock("react-router-dom", () => ({
   Link: ({ children, to, ...props }) =>
     React.createElement("a", { href: to, ...props }, children),
   useNavigate: () => vi.fn(),
+}));
+
+// Mock lucide-react icons
+vi.mock("lucide-react", () => ({
+  ArrowDownToLine: ({ children, ...props }) => React.createElement("span", props, "ArrowDownToLine"),
+  GraduationCap: ({ children, ...props }) => React.createElement("span", props, "GraduationCap"),
+  LoaderCircle: ({ children, ...props }) => React.createElement("span", props, "LoaderCircle"),
+  Briefcase: ({ children, ...props }) => React.createElement("span", props, "Briefcase"),
+  ArrowRight: ({ children, ...props }) => React.createElement("span", props, "ArrowRight"),
+  Code: ({ children, ...props }) => React.createElement("span", props, "Code"),
+  Github: ({ children, ...props }) => React.createElement("span", props, "Github"),
+  Linkedin: ({ children, ...props }) => React.createElement("span", props, "Linkedin"),
+  Mail: ({ children, ...props }) => React.createElement("span", props, "Mail"),
 }));
