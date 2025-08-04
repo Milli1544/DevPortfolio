@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react";
 import About from "./About";
 import axios from "axios";
 
@@ -67,7 +67,9 @@ describe("About Page Component", () => {
 
     mockedAxios.get.mockResolvedValue({ data: mockQualifications });
 
-    render(<About />);
+    await act(async () => {
+      render(<About />);
+    });
 
     await waitFor(() => {
       const engineeringTexts = screen.getAllByText("Software Engineering");
@@ -79,7 +81,9 @@ describe("About Page Component", () => {
   it("shows error message when API call fails", async () => {
     mockedAxios.get.mockRejectedValue(new Error("Network error"));
 
-    render(<About />);
+    await act(async () => {
+      render(<About />);
+    });
 
     await waitFor(() => {
       const errorMessages = screen.getAllByText(

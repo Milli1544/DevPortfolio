@@ -35,8 +35,36 @@ jobs:
       - name: Run client tests
         run: cd client && npm test
 
-      - name: Run E2E tests
-        run: cd client && npm run e2e
+      - name: Start servers and run E2E tests
+        run: |
+          # Start the backend API server in background
+          npm start &
+          API_SERVER_PID=$!
+
+          # Wait for API server to be ready
+          echo "Waiting for API server to start..."
+          npx wait-on http://localhost:5000 --timeout 60000
+
+          # Start the frontend dev server in background
+          cd client
+          npm run dev &
+          DEV_SERVER_PID=$!
+
+          # Wait for frontend server to be ready
+          echo "Waiting for development server to start..."
+          npx wait-on http://localhost:5178 --timeout 60000
+
+          # Run E2E tests
+          echo "Running E2E tests..."
+          npm run e2e
+
+          # Clean up
+          kill $DEV_SERVER_PID || true
+          kill $API_SERVER_PID || true
+        env:
+          CI: true
+          NODE_ENV: test
+          PORT: 5000
 
   build-and-deploy:
     runs-on: ubuntu-latest
