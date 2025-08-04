@@ -3,7 +3,7 @@ import { defineConfig } from "cypress";
 export default defineConfig({
   projectId: "3hfwpx",
   e2e: {
-    baseUrl: "http://localhost:5180",
+    baseUrl: "http://localhost:5178",
     setupNodeEvents() {
       // implement node event listeners here
     },

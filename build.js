@@ -4,14 +4,22 @@ const path = require("path");
 console.log("Starting build process...");
 
 try {
-  // Install root dependencies
-  console.log("Installing root dependencies...");
-  execSync("npm install", { stdio: "inherit" });
+  // Check if we're in a CI environment
+  const isCI = process.env.CI || process.env.VERCEL;
 
-  // Navigate to client directory and install dependencies
-  console.log("Installing client dependencies...");
-  process.chdir(path.join(__dirname, "client"));
-  execSync("npm install", { stdio: "inherit" });
+  if (!isCI) {
+    // Only install dependencies if not in CI (where they're already installed)
+    console.log("Installing root dependencies...");
+    execSync("npm install", { stdio: "inherit" });
+
+    console.log("Installing client dependencies...");
+    process.chdir(path.join(__dirname, "client"));
+    execSync("npm install", { stdio: "inherit" });
+  } else {
+    console.log("CI environment detected, skipping dependency installation...");
+    // Navigate to client directory without installing
+    process.chdir(path.join(__dirname, "client"));
+  }
 
   // Run the build
   console.log("Running Vite build...");

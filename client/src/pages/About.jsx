@@ -12,6 +12,7 @@ import ProfileCard from "../components/ProfileCard.jsx";
 import Silk from "../components/Silk.jsx";
 import Footer from "../components/layout/Footer.jsx";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api.js";
 
 const About = () => {
   const [qualifications, setQualifications] = useState([]);
@@ -54,26 +55,24 @@ const About = () => {
         setError("");
 
         console.log("Fetching qualifications from API...");
-        const response = await axios.get(
-          "http://localhost:5000/api/qualifications"
-        );
+        const response = await axios.get(API_ENDPOINTS.QUALIFICATIONS);
 
-        console.log("API Response:", response.data);
-        console.log("Qualifications count:", response.data.count);
-        console.log("Qualifications data:", response.data.data);
+        console.log("API Response:", response?.data);
+        console.log("Qualifications count:", response?.data?.count);
+        console.log("Qualifications data:", response?.data?.data);
 
-        if (response.data.success) {
-          setQualifications(response.data.data);
+        if (response?.data?.success) {
+          setQualifications(response.data.data || []);
           console.log("Qualifications state updated:", response.data.data);
 
           // Debug: Log filtered qualifications
-          const education = response.data.data.filter(
+          const education = (response.data.data || []).filter(
             (q) => q.type === "education"
           );
-          const experience = response.data.data.filter(
+          const experience = (response.data.data || []).filter(
             (q) => q.type === "experience"
           );
-          const certification = response.data.data.filter(
+          const certification = (response.data.data || []).filter(
             (q) => q.type === "certification"
           );
 
