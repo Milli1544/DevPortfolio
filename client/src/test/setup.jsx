@@ -3,7 +3,7 @@ import { vi } from "vitest";
 import React from "react";
 
 // Mock IntersectionObserver
-Object.defineProperty(window, 'IntersectionObserver', {
+Object.defineProperty(window, "IntersectionObserver", {
   writable: true,
   value: vi.fn().mockImplementation(() => ({
     observe: vi.fn(),
