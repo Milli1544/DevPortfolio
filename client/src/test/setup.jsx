@@ -5,20 +5,24 @@ import React from "react";
 // Mock framer-motion
 vi.mock("framer-motion", () => ({
   motion: {
-    div: ({ children, ...props }) => {
-      const { initial, animate, transition, whileHover, whileTap, ...restProps } = props;
+    div: ({
+      children,
+      initial,
+      animate,
+      transition,
+      whileHover,
+      whileTap,
+      ...restProps
+    }) => {
       return React.createElement("div", restProps, children);
     },
-    h1: ({ children, ...props }) => {
-      const { initial, animate, transition, ...restProps } = props;
+    h1: ({ children, initial, animate, transition, ...restProps }) => {
       return React.createElement("h1", restProps, children);
     },
-    h2: ({ children, ...props }) => {
-      const { initial, animate, transition, ...restProps } = props;
+    h2: ({ children, initial, animate, transition, ...restProps }) => {
       return React.createElement("h2", restProps, children);
     },
-    p: ({ children, ...props }) => {
-      const { initial, animate, transition, ...restProps } = props;
+    p: ({ children, initial, animate, transition, ...restProps }) => {
       return React.createElement("p", restProps, children);
     },
   },
@@ -34,13 +38,22 @@ vi.mock("react-router-dom", () => ({
 
 // Mock lucide-react icons
 vi.mock("lucide-react", () => ({
-  ArrowDownToLine: ({ children, ...props }) => React.createElement("span", props, "ArrowDownToLine"),
-  GraduationCap: ({ children, ...props }) => React.createElement("span", props, "GraduationCap"),
-  LoaderCircle: ({ children, ...props }) => React.createElement("span", props, "LoaderCircle"),
-  Briefcase: ({ children, ...props }) => React.createElement("span", props, "Briefcase"),
-  ArrowRight: ({ children, ...props }) => React.createElement("span", props, "ArrowRight"),
+  ArrowDownToLine: ({ children, ...props }) =>
+    React.createElement("span", props, "ArrowDownToLine"),
+  GraduationCap: ({ children, ...props }) =>
+    React.createElement("span", props, "GraduationCap"),
+  LoaderCircle: ({ children, ...props }) =>
+    React.createElement("span", props, "LoaderCircle"),
+  Loader2: ({ children, ...props }) =>
+    React.createElement("span", props, "Loader2"),
+  Briefcase: ({ children, ...props }) =>
+    React.createElement("span", props, "Briefcase"),
+  ArrowRight: ({ children, ...props }) =>
+    React.createElement("span", props, "ArrowRight"),
   Code: ({ children, ...props }) => React.createElement("span", props, "Code"),
-  Github: ({ children, ...props }) => React.createElement("span", props, "Github"),
-  Linkedin: ({ children, ...props }) => React.createElement("span", props, "Linkedin"),
+  Github: ({ children, ...props }) =>
+    React.createElement("span", props, "Github"),
+  Linkedin: ({ children, ...props }) =>
+    React.createElement("span", props, "Linkedin"),
   Mail: ({ children, ...props }) => React.createElement("span", props, "Mail"),
 }));
