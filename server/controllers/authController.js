@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/User.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -101,19 +101,14 @@ const signup = async (req, res) => {
       });
     }
 
-    // Create new user with admin role for specific email
-    const userData = {
+    // Create new user
+    const user = new User({
       name,
       email,
       password,
-    };
-    
-    // Set admin role for specific email
-    if (email === 'admin@portfolio.com') {
-      userData.role = 'admin';
-    }
-    
-    const user = await User.create(userData);
+    });
+
+    await user.save();
 
     // Generate token
     const token = generateToken(user._id);
@@ -132,7 +127,7 @@ const signup = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: "Error creating user",
       error: error.message,
@@ -140,8 +135,4 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = {
-  signin,
-  signout,
-  signup,
-};
+module.exports = { signin, signout, signup };

@@ -27,10 +27,6 @@
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
-        },
-        {
-          "key": "Content-Encoding",
-          "value": "gzip"
         }
       ]
     },
@@ -44,9 +40,7 @@
       ]
     }
   ],
-  "functions": {
-    "server/server.js": {
-      "runtime": "nodejs18.x"
-    }
+  "env": {
+    "NODE_ENV": "production"
   }
 }

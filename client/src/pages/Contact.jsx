@@ -1,15 +1,9 @@
-import { useState } from "react";
-import {
-  Mail,
-  MapPin,
-  Linkedin,
-  Phone,
-  Send,
-  CheckCircle2,
-} from "lucide-react";
-import Silk from "../components/Silk";
-import Footer from "../components/layout/Footer";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { CheckCircle2, Send } from "lucide-react";
+import Silk from "../components/Silk.jsx";
+import { API_ENDPOINTS } from "../config/api.js";
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +17,7 @@ const Contact = () => {
     console.log("Submitting:", formData);
     setIsSubmitting(true);
     try {
-      const response = await fetch("http://localhost:5000/api/contacts", {
+      const response = await fetch(API_ENDPOINTS.CONTACTS, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

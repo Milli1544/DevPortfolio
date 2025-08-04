@@ -5,23 +5,18 @@ const {
   createProject,
   updateProject,
   deleteProject,
-  deleteAllProjects,
-} = require("../controllers/projectController");
-const { protect, authorize } = require("../middleware/auth");
+} = require("../controllers/projectController.js");
+const { protect, authorize } = require("../middleware/auth.js");
 
 const router = express.Router();
 
-// Routes - Public read access, Admin write access
-router
-  .route("/")
-  .get(getProjects) // Public read access
-  .post(protect, authorize('admin'), createProject) // Admin only
-  .delete(protect, authorize('admin'), deleteAllProjects); // Admin only
+// Public routes
+router.get("/", getProjects);
+router.get("/:id", getProjectById);
 
-router
-  .route("/:id")
-  .get(getProjectById) // Public read access
-  .put(protect, authorize('admin'), updateProject) // Admin only
-  .delete(protect, authorize('admin'), deleteProject); // Admin only
+// Protected routes (admin only)
+router.post("/", protect, authorize("admin"), createProject);
+router.put("/:id", protect, authorize("admin"), updateProject);
+router.delete("/:id", protect, authorize("admin"), deleteProject);
 
 module.exports = router;

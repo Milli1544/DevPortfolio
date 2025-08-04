@@ -5,6 +5,7 @@ import Silk from "../components/Silk";
 import { motion } from "framer-motion";
 import axios from "axios";
 import Footer from "../components/layout/Footer";
+import { API_ENDPOINTS } from "../config/api.js";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -18,7 +19,7 @@ const Projects = () => {
         setLoading(true);
         console.log("Fetching projects from API...");
 
-        const response = await axios.get("http://localhost:5000/api/projects");
+        const response = await axios.get(API_ENDPOINTS.PROJECTS);
         console.log("API Response:", response.data);
 
         if (response.data.success) {
@@ -206,11 +207,16 @@ const Projects = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.3 }}
                     >
-                      {project.description.split("\n").map((paragraph, i) => (
-                        <p key={i} className={i > 0 ? "mt-4" : ""}>
-                          {paragraph}
-                        </p>
-                      ))}
+                      {(typeof project.description === "string"
+                        ? project.description
+                        : String(project.description || "")
+                      )
+                        .split("\n")
+                        .map((paragraph, i) => (
+                          <p key={i} className={i > 0 ? "mt-4" : ""}>
+                            {paragraph}
+                          </p>
+                        ))}
                     </motion.div>
                     <motion.div
                       className="flex flex-wrap gap-2 mb-6"
@@ -218,16 +224,29 @@ const Projects = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.4 }}
                     >
-                      {(project.technologies || project.tech || "")
-                        .split(", ")
-                        .map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="px-3 py-1 bg-gradient-to-r from-indigo-400/10 to-violet-400/10 text-indigo-300 rounded-full text-sm border border-indigo-400/20"
-                          >
-                            {tech}
-                          </span>
-                        ))}
+                      {(() => {
+                        const techData = project.technologies || project.tech;
+                        if (Array.isArray(techData)) {
+                          return techData.map((tech, techIndex) => (
+                            <span
+                              key={techIndex}
+                              className="px-3 py-1 bg-gradient-to-r from-indigo-400/10 to-violet-400/10 text-indigo-300 rounded-full text-sm border border-indigo-400/20"
+                            >
+                              {tech}
+                            </span>
+                          ));
+                        } else if (typeof techData === "string") {
+                          return techData.split(", ").map((tech, techIndex) => (
+                            <span
+                              key={techIndex}
+                              className="px-3 py-1 bg-gradient-to-r from-indigo-400/10 to-violet-400/10 text-indigo-300 rounded-full text-sm border border-indigo-400/20"
+                            >
+                              {tech}
+                            </span>
+                          ));
+                        }
+                        return null;
+                      })()}
                     </motion.div>
                     <motion.div
                       className="flex flex-wrap gap-4"

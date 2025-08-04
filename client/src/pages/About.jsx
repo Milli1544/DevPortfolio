@@ -8,9 +8,9 @@ import {
   Loader2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import ProfileCard from "../components/ProfileCard";
-import Silk from "../components/Silk";
-import Footer from "../components/layout/Footer";
+import ProfileCard from "../components/ProfileCard.jsx";
+import Silk from "../components/Silk.jsx";
+import Footer from "../components/layout/Footer.jsx";
 import axios from "axios";
 
 const About = () => {

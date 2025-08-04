@@ -1,62 +1,51 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/User.js");
+const config = require("../../config/config.js");
 
-// Protect routes - authentication middleware
+// Protect routes - require authentication
 const protect = async (req, res, next) => {
-  try {
-    let token;
+  let token;
 
-    // Check for token in header
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      token = req.headers.authorization.split(" ")[1];
-    }
+  // Check for token in headers
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
 
-    // Check if token exists
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Not authorized to access this route",
-      });
-    }
-
-    try {
-      // Verify token
-      const decoded = jwt.verify(
-        token,
-        process.env.JWT_SECRET || "portfolio_secret_key"
-      );
-
-      // Get user from database
-      const user = await User.findById(decoded.userId);
-
-      if (!user) {
-        return res.status(401).json({
-          success: false,
-          message: "No user found with this token",
-        });
-      }
-
-      req.user = user;
-      next();
-    } catch (error) {
-      return res.status(401).json({
-        success: false,
-        message: "Not authorized to access this route",
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
+  // Check if token exists
+  if (!token) {
+    return res.status(401).json({
       success: false,
-      message: "Server error in authentication",
-      error: error.message,
+      message: "Not authorized to access this route",
+    });
+  }
+
+  try {
+    // Verify token
+    const decoded = jwt.verify(token, config.jwtSecret);
+
+    // Get user from token
+    req.user = await User.findById(decoded.userId).select("-password");
+
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Not authorized to access this route",
     });
   }
 };
 
-// Authorize roles - role-based access control
+// Authorize roles
 const authorize = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
@@ -69,7 +58,7 @@ const authorize = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: `User role '${req.user.role}' is not authorized to access this route`,
+        message: `User role ${req.user.role} is not authorized to access this route`,
       });
     }
 

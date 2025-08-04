@@ -1,61 +1,34 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api.js";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(() => {
-    try {
-      return localStorage.getItem("token");
-    } catch (error) {
-      console.error("Error accessing localStorage:", error);
-      return null;
-    }
-  });
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Set up axios defaults
-  useEffect(() => {
-    try {
-      if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      } else {
-        delete axios.defaults.headers.common["Authorization"];
-      }
-    } catch (error) {
-      console.error("Error setting up axios defaults:", error);
-    }
-  }, [token]);
-
-  // Check if user is authenticated on app load
   useEffect(() => {
     const checkAuth = async () => {
-      if (token) {
-        try {
-          // You could add an endpoint to verify token and get user info
-          // For now, we'll just check if token exists
-          const userData = localStorage.getItem("user");
-          if (userData) {
-            setUser(JSON.parse(userData));
-          }
-        } catch (error) {
-          console.error("Auth check failed:", error);
-          // Don't call logout here as it might cause infinite loops
-          setToken(null);
-          setUser(null);
-          try {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-          } catch (localStorageError) {
-            console.error(
-              "Error removing from localStorage:",
-              localStorageError
-            );
-          }
+      try {
+        const storedToken = localStorage.getItem("token");
+        const storedUser = localStorage.getItem("user");
+
+        if (storedToken && storedUser) {
+          setToken(storedToken);
+          setUser(JSON.parse(storedUser));
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${storedToken}`;
         }
+      } catch (error) {
+        console.error("Error checking auth:", error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     checkAuth();
@@ -63,13 +36,10 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/signin",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(API_ENDPOINTS.SIGNIN, {
+        email,
+        password,
+      });
 
       const { token: newToken, user: userData } = response.data;
 
@@ -96,14 +66,11 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/signup",
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(API_ENDPOINTS.SIGNUP, {
+        name,
+        email,
+        password,
+      });
 
       const { token: newToken, user: userData } = response.data;
 

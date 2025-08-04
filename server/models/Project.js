@@ -4,7 +4,7 @@ const projectSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Project title is required"],
+      required: [true, "Title is required"],
       trim: true,
       maxlength: [100, "Title cannot exceed 100 characters"],
     },
@@ -14,31 +14,31 @@ const projectSchema = new mongoose.Schema(
       trim: true,
       maxlength: [1000, "Description cannot exceed 1000 characters"],
     },
-    technologies: {
+    image: {
       type: String,
-      required: [true, "Technologies are required"],
-      trim: true,
-      maxlength: [200, "Technologies cannot exceed 200 characters"],
+      required: [true, "Image URL is required"],
     },
-    imageUrl: {
-      type: String,
-      trim: true,
-      maxlength: [500, "Image URL cannot exceed 500 characters"],
-    },
+    technologies: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     githubUrl: {
       type: String,
       trim: true,
-      maxlength: [500, "GitHub URL cannot exceed 500 characters"],
     },
     liveUrl: {
       type: String,
       trim: true,
-      maxlength: [500, "Live URL cannot exceed 500 characters"],
     },
-    category: {
-      type: String,
-      enum: ["web", "mobile", "desktop", "other"],
-      default: "web",
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+    created: {
+      type: Date,
+      default: Date.now,
     },
   },
   {

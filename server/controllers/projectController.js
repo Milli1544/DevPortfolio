@@ -1,9 +1,9 @@
-const Project = require("../models/Project");
+const Project = require("../models/Project.js");
 
 // Get all projects
 const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find().sort({ createdAt: -1 });
+    const projects = await Project.find().sort({ created: -1 });
     res.status(200).json({
       success: true,
       count: projects.length,
@@ -22,14 +22,12 @@ const getProjects = async (req, res) => {
 const getProjectById = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-
     if (!project) {
       return res.status(404).json({
         success: false,
         message: "Project not found",
       });
     }
-
     res.status(200).json({
       success: true,
       data: project,
@@ -53,7 +51,7 @@ const createProject = async (req, res) => {
       data: project,
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: "Error creating project",
       error: error.message,
@@ -61,7 +59,7 @@ const createProject = async (req, res) => {
   }
 };
 
-// Update project by ID
+// Update project
 const updateProject = async (req, res) => {
   try {
     const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
@@ -78,11 +76,10 @@ const updateProject = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Project updated successfully",
       data: project,
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: "Error updating project",
       error: error.message,
@@ -90,7 +87,7 @@ const updateProject = async (req, res) => {
   }
 };
 
-// Delete project by ID
+// Delete project
 const deleteProject = async (req, res) => {
   try {
     const project = await Project.findByIdAndDelete(req.params.id);
@@ -118,10 +115,10 @@ const deleteProject = async (req, res) => {
 // Delete all projects
 const deleteAllProjects = async (req, res) => {
   try {
-    const result = await Project.deleteMany({});
+    await Project.deleteMany({});
     res.status(200).json({
       success: true,
-      message: `${result.deletedCount} projects deleted successfully`,
+      message: "All projects deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
