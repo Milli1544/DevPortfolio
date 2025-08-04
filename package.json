@@ -31,7 +31,8 @@
     "preview": "cd client && npm run preview",
     "seed-admin": "node server/seedAdmin.js",
     "seed-projects": "node server/seedProjects.js",
-    "vercel-build": "npm run build"
+    "vercel-build": "cd client && npm install && npm run build",
+    "setup": "node setup.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
