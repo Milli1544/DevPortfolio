@@ -25,6 +25,7 @@
     "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "node build.js",
+    "build-simple": "node build-simple.js",
     "test": "cd client && npm test",
     "e2e": "echo 'Starting servers...' && concurrently \"npm run server\" \"npm run client\"",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
