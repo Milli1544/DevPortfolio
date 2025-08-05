@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Send } from "lucide-react";
+import { CheckCircle2, Send, Mail } from "lucide-react";
 import Silk from "../components/Silk.jsx";
 import { API_ENDPOINTS } from "../config/api.js";
 
