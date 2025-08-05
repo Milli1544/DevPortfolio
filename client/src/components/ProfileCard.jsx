@@ -165,7 +165,9 @@ const ProfileCard = React.forwardRef(
                 >
                   {typeof contactText === "string" ? (
                     <button
-                      onClick={onContactClick || (() => console.log("Contact clicked"))}
+                      onClick={
+                        onContactClick || (() => console.log("Contact clicked"))
+                      }
                       className="w-full px-4 py-2 text-center bg-gradient-to-r from-indigo-400 to-violet-400 rounded-xl text-white hover:opacity-90 transition-all duration-300"
                     >
                       {contactText}

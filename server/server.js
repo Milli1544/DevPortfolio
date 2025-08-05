@@ -21,8 +21,12 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? ["https://dev-portfolio-ajsa.vercel.app"]
-        : ["http://localhost:5173", "http://localhost:5178"],
+        ? [
+            "https://dev-portfolio-ajsa.vercel.app",
+            "https://dev-portfolio-ajsa-*.vercel.app",
+            "https://*.vercel.app"
+          ]
+        : ["http://localhost:5173", "http://localhost:5178", "http://localhost:5181", "http://localhost:5182", "http://localhost:5183"],
     credentials: true,
   })
 );

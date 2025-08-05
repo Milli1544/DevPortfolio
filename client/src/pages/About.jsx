@@ -55,6 +55,8 @@ const About = () => {
         setError("");
 
         console.log("Fetching qualifications from API...");
+        console.log("API Endpoint:", API_ENDPOINTS.QUALIFICATIONS);
+        
         const response = await axios.get(API_ENDPOINTS.QUALIFICATIONS);
 
         console.log("API Response:", response?.data);
@@ -85,7 +87,13 @@ const About = () => {
         }
       } catch (error) {
         console.error("Error fetching qualifications:", error);
-        setError("Failed to load qualifications from server");
+        console.error("Error details:", {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          config: error.config
+        });
+        setError(`Failed to load qualifications from server: ${error.message}`);
       } finally {
         setLoading(false);
       }
