@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 const Silk = ({ speed = 5, scale = 1, color = "#7B7481", rotation = 0 }) => {
   const containerRef = useRef(null);

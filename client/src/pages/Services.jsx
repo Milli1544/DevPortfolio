@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { Code, Database, Layout, Rocket } from "lucide-react";
 import Silk from "../components/Silk";

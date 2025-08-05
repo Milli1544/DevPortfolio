@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/layout/Navbar";
@@ -9,7 +10,6 @@ import Contact from "./pages/Contact";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import AdminDashboard from "./components/admin/AdminDashboard";
-import { useState, useEffect } from "react";
 
 // Layout component that includes the Navbar
 function AppLayout() {
