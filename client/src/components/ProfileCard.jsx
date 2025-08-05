@@ -13,6 +13,7 @@ const ProfileCard = React.forwardRef(
       avatarUrl,
       showUserInfo = true,
       enableTilt = true,
+      onContactClick,
     },
     ref
   ) => {
@@ -162,9 +163,9 @@ const ProfileCard = React.forwardRef(
                   whileTap={{ scale: 0.95 }}
                   className="w-full"
                 >
-                  {typeof contactText === 'string' ? (
+                  {typeof contactText === "string" ? (
                     <button
-                      onClick={onContactClick}
+                      onClick={onContactClick || (() => console.log("Contact clicked"))}
                       className="w-full px-4 py-2 text-center bg-gradient-to-r from-indigo-400 to-violet-400 rounded-xl text-white hover:opacity-90 transition-all duration-300"
                     >
                       {contactText}
