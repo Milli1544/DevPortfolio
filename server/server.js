@@ -86,8 +86,7 @@ mongoose
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err);
-    console.log("Continuing without database connection...");
-    // Don't exit the process, just log the error
+    process.exit(1);
   });
 
 // Routes - tell server what to do for different URLs

@@ -14,7 +14,7 @@ export const API_ENDPOINTS = {
   // Data endpoints
   PROJECTS: `${API_BASE_URL}/api/projects`,
   QUALIFICATIONS: `${API_BASE_URL}/api/qualifications`,
-  CONTACTS: `${API_BASE_URL}/api/contact`,
+  CONTACTS: `${API_BASE_URL}/api/contacts`,
   USERS: `${API_BASE_URL}/api/users`,
 
   // Health check
