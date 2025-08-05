@@ -4,10 +4,7 @@ const User = require("./models/User");
 const config = require("../config/config.js");
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || config.mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGODB_URI || config.mongoUri);
 
 const createAdminUser = async () => {
   try {
