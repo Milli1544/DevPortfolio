@@ -180,13 +180,7 @@ const About = () => {
                   title="Software Engineering Student"
                   handle="milyonkifle"
                   status="Available for Opportunities"
-                  contactText={
-                    <div className="w-full px-4 py-2 text-center bg-gradient-to-r from-indigo-400 to-violet-400 rounded-xl text-white hover:opacity-90 transition-all duration-300">
-                      <Link to="/contact" className="block w-full h-full">
-                        Contact Me
-                      </Link>
-                    </div>
-                  }
+                  contactText="Contact Me"
                   avatarUrl="/images/milli.webp"
                   showUserInfo={true}
                   enableTilt={true}
