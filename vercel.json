@@ -20,31 +20,31 @@
     },
     {
       "src": "/assets/(.*)",
-      "dest": "/client/dist/assets/$1"
+      "dest": "/assets/$1"
     },
     {
       "src": "/images/(.*)",
-      "dest": "/client/dist/images/$1"
+      "dest": "/images/$1"
     },
     {
       "src": "/logo.(png|svg)",
-      "dest": "/client/dist/logo.$1"
+      "dest": "/logo.$1"
     },
     {
       "src": "/manifest.json",
-      "dest": "/client/dist/manifest.json"
+      "dest": "/manifest.json"
     },
     {
       "src": "/Resume.pdf",
-      "dest": "/client/dist/Resume.pdf"
+      "dest": "/Resume.pdf"
     },
     {
       "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|eot))",
-      "dest": "/client/dist/$1"
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/client/dist/index.html"
+      "dest": "/index.html"
     }
   ],
   "functions": {
