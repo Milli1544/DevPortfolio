@@ -17,9 +17,17 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 // Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "production"
+        ? ["https://dev-portfolio-ajsa.vercel.app"]
+        : ["http://localhost:5173", "http://localhost:5178"],
+    credentials: true,
+  })
+);
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Add compression middleware before other middleware
 app.use(
@@ -37,12 +45,13 @@ app.use(
   })
 );
 
-// Serve static files from client build (in production or on Render)
-const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER;
+// Serve static files from client build (in production or on Vercel)
+const isProduction =
+  process.env.NODE_ENV === "production" || process.env.VERCEL;
 console.log("Environment check:", {
   NODE_ENV: process.env.NODE_ENV,
-  RENDER: process.env.RENDER,
-  isProduction: isProduction
+  VERCEL: process.env.VERCEL,
+  isProduction: isProduction,
 });
 
 // Check if client/dist exists
@@ -88,6 +97,16 @@ app.use("/api/qualifications", qualificationRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+    version: "1.0.0",
+  });
+});
+
 // Root route - what happens when someone visits just "/"
 app.get("/", (req, res) => {
   if (isProduction && distExists) {
@@ -98,11 +117,14 @@ app.get("/", (req, res) => {
     res.send(`
         <h1>Welcome to My Portfolio Backend API</h1>
         <p>Server is running successfully on port ${PORT}</p>
-        <p><strong>Environment:</strong> ${process.env.NODE_ENV || 'development'}</p>
-        <p><strong>Render:</strong> ${process.env.RENDER || 'false'}</p>
+        <p><strong>Environment:</strong> ${
+          process.env.NODE_ENV || "development"
+        }</p>
+        <p><strong>Vercel:</strong> ${process.env.VERCEL || "false"}</p>
         <p><strong>Client dist exists:</strong> ${distExists}</p>
         <h3>Available Endpoints:</h3>
         <ul>
+            <li>GET /api/health - Health check</li>
             <li>GET /api/contacts - Get all contacts</li>
             <li>GET /api/projects - Get all projects</li>
             <li>GET /api/qualifications - Get all qualifications</li>
@@ -113,18 +135,55 @@ app.get("/", (req, res) => {
   }
 });
 
-// Catch-all route for client-side routing (in production or on Render)
+// Catch-all route for client-side routing (in production or on Vercel)
 if (isProduction && distExists) {
   app.get("*", (req, res) => {
+    // Don't catch API routes
+    if (req.path.startsWith("/api/")) {
+      return res.status(404).json({ message: "API route not found" });
+    }
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
 }
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Server error:", err);
+  res.status(500).json({
+    message: "Internal server error",
+    error:
+      process.env.NODE_ENV === "development"
+        ? err.message
+        : "Something went wrong",
+  });
+});
+
+// 404 handler for unmatched routes
+app.use((req, res) => {
+  console.log("404 for path:", req.path);
+  res.status(404).json({
+    message: "Route not found",
+    path: req.path,
+    method: req.method,
+  });
+});
+
+// Global error handlers
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
+});
+
+process.on("uncaughtException", (error) => {
+  console.error("Uncaught Exception:", error);
+});
+
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`API URL: http://localhost:${PORT}`);
-  console.log(`Frontend URL: http://localhost:3000`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📡 API URL: http://localhost:${PORT}`);
+  if (!isProduction) {
+    console.log(`🎨 Frontend URL: http://localhost:5173`);
+  }
 });
 
 module.exports = app;

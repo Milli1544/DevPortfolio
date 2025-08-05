@@ -1,0 +1,5 @@
+# Handle React Router client-side routing
+/*    /index.html   200
+
+# API routes should not be caught by this rule
+/api/*  /api/:splat  200
