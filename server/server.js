@@ -78,21 +78,61 @@ if (isProduction) {
 // Import config
 const config = require("../config/config.js");
 
-// MongoDB connection
-mongoose
-  .connect(process.env.MONGODB_URI || config.mongoUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+// MongoDB connection with better error handling
+const connectDB = async () => {
+  try {
+    const mongoUri = process.env.MONGODB_URI || config.mongoUri;
+    console.log("Attempting to connect to MongoDB...");
+    console.log("MongoDB URI exists:", !!mongoUri);
+    
+    if (!mongoUri) {
+      console.error("MONGODB_URI is not defined!");
+      console.log("Available environment variables:", Object.keys(process.env));
+      throw new Error("MONGODB_URI environment variable is required");
+    }
 
-  .then(() => {
+    await mongoose.connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    
     console.log("Connected to MongoDB database: Portfolio");
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error("MongoDB connection error:", err);
-    console.log("Continuing without database connection...");
-    // Don't exit the process, just log the error
+    console.error("Error details:", {
+      message: err.message,
+      code: err.code,
+      name: err.name
+    });
+    
+    // In production, we should fail fast if DB connection fails
+    if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
+      console.error("FATAL: Cannot connect to database in production!");
+      process.exit(1);
+    } else {
+      console.log("Continuing without database connection in development...");
+    }
+  }
+};
+
+// Connect to database
+connectDB();
+
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+    vercel: !!process.env.VERCEL,
+    mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    env_vars: {
+      has_mongodb_uri: !!process.env.MONGODB_URI,
+      has_jwt_secret: !!process.env.JWT_SECRET,
+      port: process.env.PORT || 5000
+    }
   });
+});
 
 // Routes - tell server what to do for different URLs
 app.use("/api/contacts", contactRoutes);
