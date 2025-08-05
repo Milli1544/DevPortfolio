@@ -20,28 +20,8 @@
       "dest": "server/server.js"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/client/assets/$1"
-    },
-    {
-      "src": "/images/(.*)",
-      "dest": "/client/images/$1"
-    },
-    {
-      "src": "/logo.(png|svg)",
-      "dest": "/client/logo.$1"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/client/manifest.json"
-    },
-    {
-      "src": "/Resume.pdf",
-      "dest": "/client/Resume.pdf"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/client/index.html"
+      "dest": "/client/$1"
     }
   ]
 }
