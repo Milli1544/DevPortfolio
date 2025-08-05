@@ -97,10 +97,7 @@ const connectDB = async () => {
       throw new Error("MONGODB_URI environment variable is required");
     }
 
-    await mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongoUri);
 
     console.log("Connected to MongoDB database: Portfolio");
   } catch (err) {
