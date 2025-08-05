@@ -24,9 +24,15 @@ app.use(
         ? [
             "https://dev-portfolio-ajsa.vercel.app",
             "https://dev-portfolio-ajsa-*.vercel.app",
-            "https://*.vercel.app"
+            "https://*.vercel.app",
           ]
-        : ["http://localhost:5173", "http://localhost:5178", "http://localhost:5181", "http://localhost:5182", "http://localhost:5183"],
+        : [
+            "http://localhost:5173",
+            "http://localhost:5178",
+            "http://localhost:5181",
+            "http://localhost:5182",
+            "http://localhost:5183",
+          ],
     credentials: true,
   })
 );
@@ -84,7 +90,7 @@ const connectDB = async () => {
     const mongoUri = process.env.MONGODB_URI || config.mongoUri;
     console.log("Attempting to connect to MongoDB...");
     console.log("MongoDB URI exists:", !!mongoUri);
-    
+
     if (!mongoUri) {
       console.error("MONGODB_URI is not defined!");
       console.log("Available environment variables:", Object.keys(process.env));
@@ -95,16 +101,16 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    
+
     console.log("Connected to MongoDB database: Portfolio");
   } catch (err) {
     console.error("MongoDB connection error:", err);
     console.error("Error details:", {
       message: err.message,
       code: err.code,
-      name: err.name
+      name: err.name,
     });
-    
+
     // In production, we should fail fast if DB connection fails
     if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
       console.error("FATAL: Cannot connect to database in production!");
@@ -125,12 +131,13 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
     vercel: !!process.env.VERCEL,
-    mongodb: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+    mongodb:
+      mongoose.connection.readyState === 1 ? "connected" : "disconnected",
     env_vars: {
       has_mongodb_uri: !!process.env.MONGODB_URI,
       has_jwt_secret: !!process.env.JWT_SECRET,
-      port: process.env.PORT || 5000
-    }
+      port: process.env.PORT || 5000,
+    },
   });
 });
 

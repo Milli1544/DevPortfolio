@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Send, Mail } from "lucide-react"; // Fixed Mail import for production
+import {
+  CheckCircle2,
+  Send,
+  Mail,
+  Phone,
+  MapPin,
+  Linkedin,
+} from "lucide-react"; // Fixed Mail import for production
 import Silk from "../components/Silk.jsx";
 import { API_ENDPOINTS } from "../config/api.js";
+import Footer from "../components/layout/Footer.jsx";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
