@@ -1,26 +1,41 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-// MongoDB connection
+// MongoDB connection with better debugging
 const connectDB = async () => {
   try {
     const mongoUri = process.env.MONGODB_URI;
+    console.log("MongoDB URI check:", {
+      hasUri: !!mongoUri,
+      uriLength: mongoUri ? mongoUri.length : 0,
+      uriStart: mongoUri ? mongoUri.substring(0, 20) + "..." : "undefined"
+    });
+    
     if (!mongoUri) {
       console.error("MONGODB_URI is not defined!");
+      console.log("Available environment variables:", Object.keys(process.env));
       return false;
     }
 
     if (mongoose.connection.readyState === 0) {
+      console.log("Attempting to connect to MongoDB...");
       await mongoose.connect(mongoUri, {
         maxPoolSize: 10,
-        serverSelectionTimeoutMS: 5000,
+        serverSelectionTimeoutMS: 10000, // Increased timeout
         socketTimeoutMS: 45000,
       });
       console.log("Connected to MongoDB database: Portfolio");
+    } else {
+      console.log("MongoDB already connected, readyState:", mongoose.connection.readyState);
     }
     return true;
   } catch (err) {
     console.error("MongoDB connection error:", err);
+    console.error("Error details:", {
+      message: err.message,
+      code: err.code,
+      name: err.name,
+    });
     return false;
   }
 };
@@ -55,21 +70,40 @@ module.exports = async (req, res) => {
   }
 
   try {
+    console.log("Projects API called:", {
+      method: req.method,
+      url: req.url,
+      timestamp: new Date().toISOString()
+    });
+
     // Connect to database
     const connected = await connectDB();
     if (!connected) {
+      console.error("Database connection failed in projects API");
       return res.status(500).json({
         success: false,
         message: "Database connection failed",
+        debug: {
+          hasMongoUri: !!process.env.MONGODB_URI,
+          nodeEnv: process.env.NODE_ENV,
+          vercel: !!process.env.VERCEL
+        }
       });
     }
 
     if (req.method === "GET") {
+      console.log("Fetching projects from database...");
       const projects = await Project.find().sort({ created: -1 });
+      console.log(`Found ${projects.length} projects`);
+      
       res.status(200).json({
         success: true,
         count: projects.length,
         data: projects,
+        debug: {
+          connectionState: mongoose.connection.readyState,
+          timestamp: new Date().toISOString()
+        }
       });
     } else {
       res.status(405).json({
@@ -83,6 +117,10 @@ module.exports = async (req, res) => {
       success: false,
       message: "Error fetching projects",
       error: error.message,
+      debug: {
+        connectionState: mongoose.connection.readyState,
+        hasMongoUri: !!process.env.MONGODB_URI
+      }
     });
   }
 };
