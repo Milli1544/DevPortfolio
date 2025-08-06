@@ -21,6 +21,12 @@ module.exports = async (req, res) => {
       url: req.url,
       environment: process.env.NODE_ENV || "development",
       vercel: !!process.env.VERCEL,
+      env_vars: {
+        has_mongodb_uri: !!process.env.MONGODB_URI,
+        has_jwt_secret: !!process.env.JWT_SECRET,
+        node_env: process.env.NODE_ENV,
+        vercel: !!process.env.VERCEL,
+      },
     });
   } catch (error) {
     console.error("Test API error:", error);
