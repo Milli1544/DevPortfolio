@@ -145,8 +145,6 @@ app.use("/api/qualifications", qualificationRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
-
-
 // Root route - what happens when someone visits just "/"
 app.get("/", (req, res) => {
   if (isProduction && distExists) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/layout/Navbar";
@@ -70,22 +70,29 @@ function AppLayout() {
 }
 
 // Create router with future flags for v7 behavior
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <AppLayout />,
+      children: [
+        { index: true, element: <Home /> },
+        { path: "about", element: <About /> },
+        { path: "projects", element: <Projects /> },
+        { path: "services", element: <Services /> },
+        { path: "contact", element: <Contact /> },
+        { path: "signin", element: <SignIn /> },
+        { path: "signup", element: <SignUp /> },
+        { path: "admin", element: <AdminDashboard /> },
+      ],
+    },
+  ],
   {
-    path: "/",
-    element: <AppLayout />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: "about", element: <About /> },
-      { path: "projects", element: <Projects /> },
-      { path: "services", element: <Services /> },
-      { path: "contact", element: <Contact /> },
-      { path: "signin", element: <SignIn /> },
-      { path: "signup", element: <SignUp /> },
-      { path: "admin", element: <AdminDashboard /> },
-    ],
-  },
-]);
+    future: {
+      v7_startTransition: true,
+    },
+  }
+);
 
 function App() {
   return (
