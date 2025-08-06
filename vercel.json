@@ -1,61 +1,76 @@
 {
   "version": 2,
+  "framework": null,
   "functions": {
     "api-functions/*.js": {
+      "runtime": "@vercel/node",
       "maxDuration": 30
     },
     "api-functions/auth/*.js": {
+      "runtime": "@vercel/node",
       "maxDuration": 30
     }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/health",
-      "destination": "/api-functions/health"
+      "src": "/api/health",
+      "dest": "/api-functions/health.js"
     },
     {
-      "source": "/api/projects",
-      "destination": "/api-functions/projects"
+      "src": "/api/projects",
+      "dest": "/api-functions/projects.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     },
     {
-      "source": "/api/projects/(.*)",
-      "destination": "/api-functions/projects"
+      "src": "/api/projects/(.*)",
+      "dest": "/api-functions/projects.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     },
     {
-      "source": "/api/contacts",
-      "destination": "/api-functions/contacts"
+      "src": "/api/contacts",
+      "dest": "/api-functions/contacts.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     },
     {
-      "source": "/api/contacts/(.*)",
-      "destination": "/api-functions/contacts"
+      "src": "/api/contacts/(.*)",
+      "dest": "/api-functions/contacts.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     },
     {
-      "source": "/api/qualifications",
-      "destination": "/api-functions/qualifications"
+      "src": "/api/qualifications",
+      "dest": "/api-functions/qualifications.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     },
     {
-      "source": "/api/qualifications/(.*)",
-      "destination": "/api-functions/qualifications"
+      "src": "/api/qualifications/(.*)",
+      "dest": "/api-functions/qualifications.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     },
     {
-      "source": "/api/auth/signup",
-      "destination": "/api-functions/auth/signup"
+      "src": "/api/auth/signup",
+      "dest": "/api-functions/auth/signup.js",
+      "methods": ["POST", "OPTIONS"]
     },
     {
-      "source": "/api/auth/signin",
-      "destination": "/api-functions/auth/signin"
+      "src": "/api/auth/signin",
+      "dest": "/api-functions/auth/signin.js",
+      "methods": ["POST", "OPTIONS"]
     },
     {
-      "source": "/api/auth/signout",
-      "destination": "/api-functions/auth/signout"
+      "src": "/api/auth/signout",
+      "dest": "/api-functions/auth/signout.js",
+      "methods": ["POST", "OPTIONS"]
     },
     {
-      "source": "/api/test",
-      "destination": "/api-functions/test"
+      "src": "/api/test",
+      "dest": "/api-functions/test.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  ]
+  ],
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "installCommand": null
 }

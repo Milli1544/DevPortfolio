@@ -1,25 +1,24 @@
-# CRITICAL: Completely exclude server directory to prevent Express conflicts
+# NUCLEAR OPTION: Exclude everything except api-functions and static files
 server/
 server*
-
-# Exclude old API directory that conflicts with serverless functions
 api/
-
-# Exclude configuration that might trigger server detection
 config/
+
+# Exclude package.json to prevent server detection
 package.json
 package-lock.json
+node_modules/
 
-# Exclude all environment files
+# Exclude all environment and config files
 .env*
-env.example
+*.config.js
+tsconfig.json
 
 # Exclude build and development files
 build/
 build-simple.js
 cleanup-env.js
 setup.js
-node_modules/
 
 # Exclude test files
 *.test.js
@@ -27,6 +26,7 @@ node_modules/
 cypress/
 __tests__/
 vitest.config.js
+cypress.config.js
 
 # Exclude IDE and system files
 .vscode/
@@ -43,8 +43,9 @@ README.md
 *.md
 LICENSE
 
-# Exclude any potential server files
+# Exclude any server-related files
 server.js
 app.js
 index.js
 express.js
+main.js
