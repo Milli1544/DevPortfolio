@@ -12,9 +12,9 @@ yarn-error.log*
 .env.production.local
 .env.production
 
-# Build outputs
-dist/
+# Build outputs (but allow client/dist for Vercel)
 build/
+# Note: dist/ is not ignored to allow Vercel to serve the built React app
 
 # IDE files
 .vscode/
@@ -67,5 +67,4 @@ jspm_packages/
 .env.production
 
 # Vercel
-.vercel 
 .vercel
