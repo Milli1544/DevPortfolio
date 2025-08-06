@@ -3,49 +3,16 @@
   "functions": {
     "api/*.js": {
       "maxDuration": 30
-    },
-    "api/auth/*.js": {
-      "maxDuration": 30
     }
   },
   "rewrites": [
     {
-      "source": "/api/test",
-      "destination": "/api/test.js"
-    },
-    {
-      "source": "/api/health",
-      "destination": "/api/health.js"
-    },
-    {
-      "source": "/api/projects",
-      "destination": "/api/projects.js"
-    },
-    {
-      "source": "/api/contacts",
-      "destination": "/api/contacts.js"
-    },
-    {
-      "source": "/api/qualifications",
-      "destination": "/api/qualifications.js"
-    },
-    {
-      "source": "/api/auth/signup",
-      "destination": "/api/auth/signup.js"
-    },
-    {
-      "source": "/api/auth/signin",
-      "destination": "/api/auth/signin.js"
-    },
-    {
-      "source": "/api/auth/signout",
-      "destination": "/api/auth/signout.js"
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
     },
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "ignoreCommand": "echo 'Skipping build - using serverless functions only'",
-  "buildCommand": "echo 'No build needed for serverless functions'"
+  ]
 }
