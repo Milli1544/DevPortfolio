@@ -1,7 +1,7 @@
 {
   "name": "mern_skeleton",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "api-functions/health.js",
   "author": "Blessing",
   "license": "MIT",
   "devDependencies": {
@@ -21,18 +21,18 @@
     "wait-on": "^7.2.0"
   },
   "scripts": {
-    "start": "node server/server.js",
-    "server": "nodemon server/server.js",
+    "start": "echo 'This is a serverless deployment - no start script needed'",
+    "server": "echo 'Server script disabled for serverless deployment'",
     "client": "cd client && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "npm run client",
     "build": "node build.js",
     "build-simple": "node build-simple.js",
     "test": "cd client && npm test",
     "e2e": "echo 'Starting servers...' && concurrently \"npm run server\" \"npm run client\"",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "cd client && npm run preview",
-    "seed-admin": "node server/seedAdmin.js",
-    "seed-projects": "node server/seedProjects.js",
+    "seed-admin": "echo 'Seeding disabled for serverless deployment'",
+    "seed-projects": "echo 'Seeding disabled for serverless deployment'",
     "vercel-build": "echo 'API-only deployment - no build needed'",
     "setup": "node setup.js",
     "type-check": "tsc --noEmit",
