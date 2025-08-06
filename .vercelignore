@@ -1,47 +1,50 @@
-# Exclude server directory completely
+# CRITICAL: Completely exclude server directory to prevent Express conflicts
 server/
-server_old/
-server_backup/
+server*
 
-# Exclude old API directory
+# Exclude old API directory that conflicts with serverless functions
 api/
 
-# Exclude configuration files
+# Exclude configuration that might trigger server detection
 config/
+package.json
+package-lock.json
+
+# Exclude all environment files
 .env*
 env.example
 
-# Exclude build and setup files
+# Exclude build and development files
 build/
 build-simple.js
 cleanup-env.js
 setup.js
+node_modules/
 
 # Exclude test files
 *.test.js
 *.spec.js
 cypress/
 __tests__/
+vitest.config.js
 
-# Exclude IDE files
+# Exclude IDE and system files
 .vscode/
 .idea/
 *.swp
 *.swo
+.DS_Store
+Thumbs.db
 
-# Exclude git and node modules
+# Exclude git and documentation
 .git/
-node_modules/
-package-lock.json
-
-# Exclude documentation
+.github/
 README.md
 *.md
+LICENSE
 
-# Exclude any other potential server files
+# Exclude any potential server files
 server.js
-server.ts
 app.js
-app.ts
 index.js
-index.ts 
+express.js

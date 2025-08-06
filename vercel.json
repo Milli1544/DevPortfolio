@@ -1,52 +1,61 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api-functions/*.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api-functions/*.js": {
+      "maxDuration": 30
     },
-    {
-      "src": "api-functions/auth/*.js", 
-      "use": "@vercel/node"
+    "api-functions/auth/*.js": {
+      "maxDuration": 30
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/api/test",
-      "dest": "/api-functions/test.js"
+      "source": "/api/health",
+      "destination": "/api-functions/health"
     },
     {
-      "src": "/api/health",
-      "dest": "/api-functions/health.js"
+      "source": "/api/projects",
+      "destination": "/api-functions/projects"
     },
     {
-      "src": "/api/projects",
-      "dest": "/api-functions/projects.js"
+      "source": "/api/projects/(.*)",
+      "destination": "/api-functions/projects"
     },
     {
-      "src": "/api/contacts",
-      "dest": "/api-functions/contacts.js"
+      "source": "/api/contacts",
+      "destination": "/api-functions/contacts"
     },
     {
-      "src": "/api/qualifications",
-      "dest": "/api-functions/qualifications.js"
+      "source": "/api/contacts/(.*)",
+      "destination": "/api-functions/contacts"
     },
     {
-      "src": "/api/auth/signup",
-      "dest": "/api-functions/auth/signup.js"
+      "source": "/api/qualifications",
+      "destination": "/api-functions/qualifications"
     },
     {
-      "src": "/api/auth/signin",
-      "dest": "/api-functions/auth/signin.js"
+      "source": "/api/qualifications/(.*)",
+      "destination": "/api-functions/qualifications"
     },
     {
-      "src": "/api/auth/signout",
-      "dest": "/api-functions/auth/signout.js"
+      "source": "/api/auth/signup",
+      "destination": "/api-functions/auth/signup"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/api/auth/signin",
+      "destination": "/api-functions/auth/signin"
+    },
+    {
+      "source": "/api/auth/signout",
+      "destination": "/api-functions/auth/signout"
+    },
+    {
+      "source": "/api/test",
+      "destination": "/api-functions/test"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ],
-  "ignoreCommand": "echo 'Ignoring server directory'"
+  ]
 }
