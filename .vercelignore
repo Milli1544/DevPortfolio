@@ -1,0 +1,9 @@
+server/
+config/
+node_modules/
+.git/
+.env
+.env.local
+.env.production
+README.md
+package-lock.json 
