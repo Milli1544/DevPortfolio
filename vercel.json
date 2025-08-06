@@ -1,14 +1,45 @@
 {
   "version": 2,
   "functions": {
-    "api/*.js": {
+    "api-functions/*.js": {
+      "maxDuration": 30
+    },
+    "api-functions/auth/*.js": {
       "maxDuration": 30
     }
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "source": "/api/test",
+      "destination": "/api-functions/test.js"
+    },
+    {
+      "source": "/api/health",
+      "destination": "/api-functions/health.js"
+    },
+    {
+      "source": "/api/projects",
+      "destination": "/api-functions/projects.js"
+    },
+    {
+      "source": "/api/contacts",
+      "destination": "/api-functions/contacts.js"
+    },
+    {
+      "source": "/api/qualifications",
+      "destination": "/api-functions/qualifications.js"
+    },
+    {
+      "source": "/api/auth/signup",
+      "destination": "/api-functions/auth/signup.js"
+    },
+    {
+      "source": "/api/auth/signin",
+      "destination": "/api-functions/auth/signin.js"
+    },
+    {
+      "source": "/api/auth/signout",
+      "destination": "/api-functions/auth/signout.js"
     },
     {
       "source": "/(.*)",
