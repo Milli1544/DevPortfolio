@@ -1,49 +1,52 @@
 {
   "version": 2,
-  "functions": {
-    "api-functions/*.js": {
-      "maxDuration": 30
+  "builds": [
+    {
+      "src": "api-functions/*.js",
+      "use": "@vercel/node"
     },
-    "api-functions/auth/*.js": {
-      "maxDuration": 30
+    {
+      "src": "api-functions/auth/*.js", 
+      "use": "@vercel/node"
     }
-  },
-  "rewrites": [
+  ],
+  "routes": [
     {
-      "source": "/api/test",
-      "destination": "/api-functions/test.js"
+      "src": "/api/test",
+      "dest": "/api-functions/test.js"
     },
     {
-      "source": "/api/health",
-      "destination": "/api-functions/health.js"
+      "src": "/api/health",
+      "dest": "/api-functions/health.js"
     },
     {
-      "source": "/api/projects",
-      "destination": "/api-functions/projects.js"
+      "src": "/api/projects",
+      "dest": "/api-functions/projects.js"
     },
     {
-      "source": "/api/contacts",
-      "destination": "/api-functions/contacts.js"
+      "src": "/api/contacts",
+      "dest": "/api-functions/contacts.js"
     },
     {
-      "source": "/api/qualifications",
-      "destination": "/api-functions/qualifications.js"
+      "src": "/api/qualifications",
+      "dest": "/api-functions/qualifications.js"
     },
     {
-      "source": "/api/auth/signup",
-      "destination": "/api-functions/auth/signup.js"
+      "src": "/api/auth/signup",
+      "dest": "/api-functions/auth/signup.js"
     },
     {
-      "source": "/api/auth/signin",
-      "destination": "/api-functions/auth/signin.js"
+      "src": "/api/auth/signin",
+      "dest": "/api-functions/auth/signin.js"
     },
     {
-      "source": "/api/auth/signout",
-      "destination": "/api-functions/auth/signout.js"
+      "src": "/api/auth/signout",
+      "dest": "/api-functions/auth/signout.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  ]
+  ],
+  "ignoreCommand": "echo 'Ignoring server directory'"
 }
