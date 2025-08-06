@@ -46,5 +46,6 @@
       "destination": "/index.html"
     }
   ],
-  "ignoreCommand": "echo 'Skipping build'"
+  "ignoreCommand": "echo 'Skipping build - using serverless functions only'",
+  "buildCommand": "echo 'No build needed for serverless functions'"
 }

@@ -1,9 +1,38 @@
+# Exclude server directory completely
 server/
+server_old/
+server_backup/
+
+# Exclude configuration files that might conflict
 config/
-node_modules/
-.git/
 .env
 .env.local
 .env.production
+
+# Exclude development files
+node_modules/
+.git/
 README.md
-package-lock.json 
+package-lock.json
+
+# Exclude build files that might conflict
+build/
+build-simple.js
+cleanup-env.js
+setup.js
+
+# Exclude test files
+*.test.js
+*.spec.js
+cypress/
+__tests__/
+
+# Exclude IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Exclude OS files
+.DS_Store
+Thumbs.db 
