@@ -1,54 +1,41 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/*.js",
-      "use": "@vercel/node"
+      "source": "/api/test",
+      "destination": "/api/test.js"
     },
     {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/test",
-      "dest": "/api/test.js"
+      "source": "/api/health",
+      "destination": "/api/health.js"
     },
     {
-      "src": "/api/health",
-      "dest": "/api/health.js"
+      "source": "/api/projects",
+      "destination": "/api/projects.js"
     },
     {
-      "src": "/api/projects",
-      "dest": "/api/projects.js"
+      "source": "/api/contacts",
+      "destination": "/api/contacts.js"
     },
     {
-      "src": "/api/contacts",
-      "dest": "/api/contacts.js"
+      "source": "/api/qualifications",
+      "destination": "/api/qualifications.js"
     },
     {
-      "src": "/api/qualifications",
-      "dest": "/api/qualifications.js"
+      "source": "/api/auth/signup",
+      "destination": "/api/auth/signup.js"
     },
     {
-      "src": "/api/auth/signup",
-      "dest": "/api/auth/signup.js"
+      "source": "/api/auth/signin",
+      "destination": "/api/auth/signin.js"
     },
     {
-      "src": "/api/auth/signin",
-      "dest": "/api/auth/signin.js"
+      "source": "/api/auth/signout",
+      "destination": "/api/auth/signout.js"
     },
     {
-      "src": "/api/auth/signout",
-      "dest": "/api/auth/signout.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/client/dist/$1"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
