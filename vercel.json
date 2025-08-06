@@ -1,76 +1,66 @@
 {
   "version": 2,
   "framework": null,
+  "buildCommand": "",
+  "outputDirectory": ".",
   "functions": {
     "api-functions/*.js": {
-      "runtime": "@vercel/node",
+      "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
     "api-functions/auth/*.js": {
-      "runtime": "@vercel/node",
+      "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/health",
-      "dest": "/api-functions/health.js"
+      "source": "/api/health",
+      "destination": "/api-functions/health.js"
     },
     {
-      "src": "/api/projects",
-      "dest": "/api-functions/projects.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      "source": "/api/projects/:path*",
+      "destination": "/api-functions/projects.js"
     },
     {
-      "src": "/api/projects/(.*)",
-      "dest": "/api-functions/projects.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      "source": "/api/projects",
+      "destination": "/api-functions/projects.js"
     },
     {
-      "src": "/api/contacts",
-      "dest": "/api-functions/contacts.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      "source": "/api/contacts/:path*",
+      "destination": "/api-functions/contacts.js"
     },
     {
-      "src": "/api/contacts/(.*)",
-      "dest": "/api-functions/contacts.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      "source": "/api/contacts",
+      "destination": "/api-functions/contacts.js"
     },
     {
-      "src": "/api/qualifications",
-      "dest": "/api-functions/qualifications.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      "source": "/api/qualifications/:path*",
+      "destination": "/api-functions/qualifications.js"
     },
     {
-      "src": "/api/qualifications/(.*)",
-      "dest": "/api-functions/qualifications.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      "source": "/api/qualifications",
+      "destination": "/api-functions/qualifications.js"
     },
     {
-      "src": "/api/auth/signup",
-      "dest": "/api-functions/auth/signup.js",
-      "methods": ["POST", "OPTIONS"]
+      "source": "/api/auth/signup",
+      "destination": "/api-functions/auth/signup.js"
     },
     {
-      "src": "/api/auth/signin",
-      "dest": "/api-functions/auth/signin.js",
-      "methods": ["POST", "OPTIONS"]
+      "source": "/api/auth/signin",
+      "destination": "/api-functions/auth/signin.js"
     },
     {
-      "src": "/api/auth/signout",
-      "dest": "/api-functions/auth/signout.js",
-      "methods": ["POST", "OPTIONS"]
+      "source": "/api/auth/signout",
+      "destination": "/api-functions/auth/signout.js"
     },
     {
-      "src": "/api/test",
-      "dest": "/api-functions/test.js"
+      "source": "/api/test",
+      "destination": "/api-functions/test.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ],
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "installCommand": null
+  ]
 }

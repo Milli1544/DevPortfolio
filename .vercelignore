@@ -1,51 +1,84 @@
-# NUCLEAR OPTION: Exclude everything except api-functions and static files
+# CRITICAL: Exclude ALL server-related files
+/server
+/server/
+/server/**
 server/
-server*
-api/
+server/**/*
+**/server.js
+**/express.js
+
+# Exclude the package-server.json
+package-server.json
+
+# Exclude config directory
+/config
 config/
 
-# Exclude package.json to prevent server detection
-package.json
-package-lock.json
-node_modules/
-
-# Exclude all environment and config files
-.env*
-*.config.js
-tsconfig.json
-
-# Exclude build and development files
-build/
-build-simple.js
-cleanup-env.js
-setup.js
-
-# Exclude test files
+# Exclude all development files
 *.test.js
 *.spec.js
+setup.js
+build.js
+build-simple.js
+cleanup-env.js
+seedAdmin.js
+seedProjects.js
+
+# Exclude environment files
+.env
+.env.*
+!.env.example
+
+# Exclude development dependencies and files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Exclude test directories
 cypress/
 __tests__/
-vitest.config.js
-cypress.config.js
+tests/
+test/
 
-# Exclude IDE and system files
+# Exclude TypeScript config (not needed for runtime)
+tsconfig.json
+
+# Exclude build tools configs
+vite.config.js
+vitest.config.js
+tailwind.config.js
+postcss.config.js
+cypress.config.js
+eslint.config.js
+
+# Exclude IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+
+# Exclude OS files
 .DS_Store
 Thumbs.db
 
-# Exclude git and documentation
+# Exclude git files
 .git/
 .github/
-README.md
+.gitignore
+
+# Exclude documentation
 *.md
+!README.md
 LICENSE
 
-# Exclude any server-related files
-server.js
-app.js
-index.js
-express.js
-main.js
+# Client source files (we only need the built files)
+/client/src
+/client/public
+/client/cypress
+/client/*.config.js
+/client/package.json
+/client/package-lock.json
+/client/.gitignore

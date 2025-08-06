@@ -2,13 +2,17 @@
   "name": "portfolio-serverless",
   "version": "1.0.0",
   "description": "Portfolio website with serverless API functions",
+  "private": true,
   "scripts": {
-    "vercel-build": "echo 'Using serverless functions only - no build needed'"
+    "vercel-build": "echo 'Using serverless functions and pre-built static files'"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "dotenv": "^17.0.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.15.0"
+    "mongoose": "^7.5.0"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
