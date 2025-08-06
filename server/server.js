@@ -97,7 +97,12 @@ const connectDB = async () => {
       throw new Error("MONGODB_URI environment variable is required");
     }
 
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, {
+      // Remove deprecated options that cause warnings
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    });
 
     console.log("Connected to MongoDB database: Portfolio");
   } catch (err) {
@@ -111,7 +116,8 @@ const connectDB = async () => {
     // In production, we should fail fast if DB connection fails
     if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
       console.error("FATAL: Cannot connect to database in production!");
-      process.exit(1);
+      // Don't exit immediately, let the server start but log the error
+      console.log("Server will start but database operations will fail");
     } else {
       console.log("Continuing without database connection in development...");
     }
@@ -149,7 +155,31 @@ app.use("/api/auth", authRoutes);
 app.get("/", (req, res) => {
   if (isProduction && distExists) {
     console.log("Serving React frontend from client/dist/index.html");
-    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+    const indexPath = path.join(__dirname, "../client/dist/index.html");
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      console.log("index.html not found, serving API welcome page");
+      res.send(`
+          <h1>Welcome to My Portfolio Backend API</h1>
+          <p>Server is running successfully on port ${PORT}</p>
+          <p><strong>Environment:</strong> ${
+            process.env.NODE_ENV || "development"
+          }</p>
+          <p><strong>Vercel:</strong> ${process.env.VERCEL || "false"}</p>
+          <p><strong>Client dist exists:</strong> ${distExists}</p>
+          <p><strong>index.html exists:</strong> ${fs.existsSync(indexPath)}</p>
+          <h3>Available Endpoints:</h3>
+          <ul>
+              <li>GET /api/health - Health check</li>
+              <li>GET /api/contacts - Get all contacts</li>
+              <li>GET /api/projects - Get all projects</li>
+              <li>GET /api/qualifications - Get all qualifications</li>
+              <li>GET /api/users - Get all users</li>
+              <li>POST /api/auth - Authentication endpoints</li>
+          </ul>
+      `);
+    }
   } else {
     console.log("Serving API welcome page");
     res.send(`
@@ -180,13 +210,29 @@ if (isProduction && distExists) {
     if (req.path.startsWith("/api/")) {
       return res.status(404).json({ message: "API route not found" });
     }
-    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+    // Check if the file exists before sending
+    const indexPath = path.join(__dirname, "../client/dist/index.html");
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      res.status(404).json({ message: "Frontend not found" });
+    }
   });
 }
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error("Server error:", err);
+
+  // Handle path-to-regexp errors specifically
+  if (err.message && err.message.includes("Missing parameter name")) {
+    console.error("Path-to-regexp error detected:", err.message);
+    return res.status(400).json({
+      message: "Invalid route parameter",
+      error: "Route parameter error detected",
+    });
+  }
+
   res.status(500).json({
     message: "Internal server error",
     error:

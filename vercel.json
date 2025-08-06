@@ -1,13 +1,54 @@
 {
   "version": 2,
-  "buildCommand": "cd client && npm run build",
-  "outputDirectory": "client/dist",
-  "installCommand": "cd client && npm install",
-  "framework": "vite",
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "api/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/test",
+      "dest": "/api/test.js"
+    },
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/projects",
+      "dest": "/api/projects.js"
+    },
+    {
+      "src": "/api/contacts",
+      "dest": "/api/contacts.js"
+    },
+    {
+      "src": "/api/qualifications",
+      "dest": "/api/qualifications.js"
+    },
+    {
+      "src": "/api/auth/signup",
+      "dest": "/api/auth/signup.js"
+    },
+    {
+      "src": "/api/auth/signin",
+      "dest": "/api/auth/signin.js"
+    },
+    {
+      "src": "/api/auth/signout",
+      "dest": "/api/auth/signout.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/$1"
     }
   ]
 }

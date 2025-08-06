@@ -10,7 +10,7 @@ console.log("API Configuration:", {
   VITE_API_URL: import.meta.env.VITE_API_URL,
   PROD: import.meta.env.PROD,
   API_BASE_URL: API_BASE_URL,
-  NODE_ENV: import.meta.env.NODE_ENV
+  NODE_ENV: import.meta.env.NODE_ENV,
 });
 
 export const API_ENDPOINTS = {
@@ -22,7 +22,7 @@ export const API_ENDPOINTS = {
   // Data endpoints
   PROJECTS: `${API_BASE_URL}/api/projects`,
   QUALIFICATIONS: `${API_BASE_URL}/api/qualifications`,
-  CONTACTS: `${API_BASE_URL}/api/contact`,
+  CONTACTS: `${API_BASE_URL}/api/contacts`,
   USERS: `${API_BASE_URL}/api/users`,
 
   // Health check
