@@ -1,49 +1,70 @@
 const mongoose = require("mongoose");
 
-const projectSchema = new mongoose.Schema(
-  {
-    title: {
+const projectSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, "Project title is required"],
+    trim: true,
+  },
+  description: {
+    type: String,
+    required: [true, "Project description is required"],
+  },
+  technologies: [
+    {
       type: String,
-      required: [true, "Title is required"],
-      trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
+      required: true,
     },
-    description: {
-      type: String,
-      required: [true, "Description is required"],
-      trim: true,
-      maxlength: [1000, "Description cannot exceed 1000 characters"],
-    },
-    image: {
-      type: String,
-      required: [true, "Image URL is required"],
-    },
-    technologies: [
-      {
-        type: String,
-        trim: true,
+  ],
+  githubUrl: {
+    type: String,
+    validate: {
+      validator: function (v) {
+        return /^https?:\/\/.+/.test(v);
       },
-    ],
-    githubUrl: {
-      type: String,
-      trim: true,
-    },
-    liveUrl: {
-      type: String,
-      trim: true,
-    },
-    featured: {
-      type: Boolean,
-      default: false,
-    },
-    created: {
-      type: Date,
-      default: Date.now,
+      message: "Please provide a valid URL",
     },
   },
-  {
-    timestamps: true,
-  }
-);
+  liveUrl: {
+    type: String,
+    validate: {
+      validator: function (v) {
+        return /^https?:\/\/.+/.test(v);
+      },
+      message: "Please provide a valid URL",
+    },
+  },
+  image: {
+    type: String,
+  },
+  featured: {
+    type: Boolean,
+    default: false,
+  },
+  category: {
+    type: String,
+    enum: ["web", "mobile", "desktop", "other"],
+    default: "web",
+  },
+  status: {
+    type: String,
+    enum: ["completed", "in-progress", "planned"],
+    default: "completed",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Update the updatedAt field before saving
+projectSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
 
 module.exports = mongoose.model("Project", projectSchema);

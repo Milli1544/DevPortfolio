@@ -3,13 +3,14 @@
   "framework": null,
   "buildCommand": "",
   "outputDirectory": ".",
+  "installCommand": "echo 'No installation required'",
   "functions": {
     "api-functions/*.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
     "api-functions/auth/*.js": {
-      "runtime": "@vercel/node@2.15.9",
+      "runtime": "@vercel/node@2.15.9", 
       "maxDuration": 30
     }
   },
@@ -19,24 +20,12 @@
       "destination": "/api-functions/health.js"
     },
     {
-      "source": "/api/projects/:path*",
-      "destination": "/api-functions/projects.js"
-    },
-    {
       "source": "/api/projects",
       "destination": "/api-functions/projects.js"
     },
     {
-      "source": "/api/contacts/:path*",
-      "destination": "/api-functions/contacts.js"
-    },
-    {
       "source": "/api/contacts",
       "destination": "/api-functions/contacts.js"
-    },
-    {
-      "source": "/api/qualifications/:path*",
-      "destination": "/api-functions/qualifications.js"
     },
     {
       "source": "/api/qualifications",
@@ -57,6 +46,10 @@
     {
       "source": "/api/test",
       "destination": "/api-functions/test.js"
+    },
+    {
+      "source": "/api/seed-data",
+      "destination": "/api-functions/seed-data.js"
     },
     {
       "source": "/(.*)",
