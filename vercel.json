@@ -5,11 +5,39 @@
   "outputDirectory": ".",
   "installCommand": "echo 'No installation required'",
   "functions": {
-    "api-functions/*.js": {
+    "api-functions/health.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/auth/*.js": {
+    "api-functions/projects.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
+    "api-functions/qualifications.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
+    "api-functions/contacts.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
+    "api-functions/test.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
+    "api-functions/seed-data.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
+    "api-functions/auth/signin.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
+    "api-functions/auth/signup.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
+    "api-functions/auth/signout.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     }
