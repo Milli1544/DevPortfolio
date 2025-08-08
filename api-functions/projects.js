@@ -5,7 +5,11 @@ module.exports = async (req, res) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, OPTIONS"
   );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With"
+  );
+  res.setHeader("Access-Control-Max-Age", "86400");
 
   // Handle preflight requests
   if (req.method === "OPTIONS") {
@@ -55,7 +59,8 @@ module.exports = async (req, res) => {
       created: { type: Date, default: Date.now },
     });
 
-    const Project = mongoose.models.Project || mongoose.model("Project", projectSchema);
+    const Project =
+      mongoose.models.Project || mongoose.model("Project", projectSchema);
 
     if (req.method === "GET") {
       // Connect to database
@@ -68,7 +73,7 @@ module.exports = async (req, res) => {
       }
 
       const projects = await Project.find().sort({ created: -1 });
-      
+
       res.status(200).json({
         success: true,
         count: projects.length,
