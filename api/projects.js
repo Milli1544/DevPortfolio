@@ -1,28 +1,8 @@
 module.exports = async (req, res) => {
-  // Set CORS headers - more comprehensive configuration
-  const allowedOrigins = [
-    "https://dev-portfolio-ajsa.vercel.app",
-    "https://dev-portfolio-ajsa-git-760186-millionkifleyesus-4084s-projects.vercel.app",
-    "http://localhost:5173",
-    "http://localhost:5178",
-    "http://localhost:3000"
-  ];
-  
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  } else {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-  }
-  
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Max-Age", "86400");
-
-  // Handle preflight requests
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
+  // Setup CORS
+  const setupCORS = require("./utils/cors");
+  if (setupCORS(req, res)) {
+    return; // Preflight request handled
   }
 
   try {
@@ -43,8 +23,8 @@ module.exports = async (req, res) => {
             has_jwt_secret: !!process.env.JWT_SECRET,
             node_env: process.env.NODE_ENV,
             vercel: !!process.env.VERCEL,
-          }
-        }
+          },
+        },
       });
     }
 
@@ -77,7 +57,8 @@ module.exports = async (req, res) => {
       created: { type: Date, default: Date.now },
     });
 
-    const Project = mongoose.models.Project || mongoose.model("Project", projectSchema);
+    const Project =
+      mongoose.models.Project || mongoose.model("Project", projectSchema);
 
     if (req.method === "GET") {
       // Connect to database
@@ -90,7 +71,7 @@ module.exports = async (req, res) => {
       }
 
       const projects = await Project.find().sort({ created: -1 });
-      
+
       res.status(200).json({
         success: true,
         count: projects.length,
