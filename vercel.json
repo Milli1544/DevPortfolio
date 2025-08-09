@@ -25,6 +25,10 @@
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
+    "api/test-env.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
 
     "api/auth/signin.js": {
       "runtime": "@vercel/node@2.15.9",
@@ -79,6 +83,10 @@
     {
       "source": "/api/test",
       "destination": "/api/test.js"
+    },
+    {
+      "source": "/api/test-env",
+      "destination": "/api/test-env.js"
     },
 
     {
