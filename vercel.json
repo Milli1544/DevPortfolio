@@ -25,11 +25,11 @@
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api/test-env.js": {
+    "api/env-test.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api/test-simple.js": {
+    "api/simple-test.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
@@ -90,11 +90,11 @@
     },
     {
       "source": "/api/test-env",
-      "destination": "/api/test-env.js"
+      "destination": "/api/env-test.js"
     },
     {
       "source": "/api/test-simple",
-      "destination": "/api/test-simple.js"
+      "destination": "/api/simple-test.js"
     },
 
     {
