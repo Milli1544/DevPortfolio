@@ -10,11 +10,12 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
-.env.production
 
-# Build outputs (but allow client/dist for Vercel)
+# Build outputs
+dist/
 build/
-# Note: dist/ is not ignored to allow Vercel to serve the built React app
+.next/
+out/
 
 # IDE files
 .vscode/
@@ -22,21 +23,16 @@ build/
 *.swp
 *.swo
 
-# OS generated files
+# OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
 # Logs
-logs
+logs/
 *.log
 
 # Runtime data
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
@@ -44,27 +40,14 @@ pids
 # Coverage directory used by tools like istanbul
 coverage/
 
-# nyc test coverage
-.nyc_output
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env.local
-.env.production
-
 # Vercel
 .vercel
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test files
+test-*.js
+debug-*.js
+verify-*.js

@@ -2,7 +2,7 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
   (import.meta.env.PROD
-    ? "https://dev-portfolio-ajsa.vercel.app"
+    ? "https://dev-portfolio-ajsa.vercel.app" // Production Vercel URL
     : "http://localhost:5000");
 
 // Debug logging

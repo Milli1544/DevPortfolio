@@ -97,6 +97,22 @@ module.exports = async (req, res) => {
         count: contacts.length,
         data: contacts,
       });
+    } else if (req.method === "DELETE") {
+      const { id } = req.query;
+      const contact = await Contact.findByIdAndDelete(id);
+
+      if (!contact) {
+        return res.status(404).json({
+          success: false,
+          message: "Contact not found",
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Contact deleted successfully",
+        data: {},
+      });
     } else {
       res.status(405).json({
         success: false,

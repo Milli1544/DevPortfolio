@@ -5,39 +5,39 @@
   "outputDirectory": ".",
   "installCommand": "echo 'No installation required'",
   "functions": {
-    "api-functions/health.js": {
+    "api/health.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/projects.js": {
+    "api/projects.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/qualifications.js": {
+    "api/qualifications.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/contacts.js": {
+    "api/contacts.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/test.js": {
+    "api/test.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/seed-data.js": {
+    "api/auth/signin.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/auth/signin.js": {
+    "api/auth/signup.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/auth/signup.js": {
+    "api/auth/signout.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
-    "api-functions/auth/signout.js": {
+    "api/users.js": {
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     }
@@ -45,39 +45,39 @@
   "rewrites": [
     {
       "source": "/api/health",
-      "destination": "/api-functions/health.js"
+      "destination": "/api/health.js"
     },
     {
       "source": "/api/projects",
-      "destination": "/api-functions/projects.js"
+      "destination": "/api/projects.js"
     },
     {
       "source": "/api/contacts",
-      "destination": "/api-functions/contacts.js"
+      "destination": "/api/contacts.js"
     },
     {
       "source": "/api/qualifications",
-      "destination": "/api-functions/qualifications.js"
+      "destination": "/api/qualifications.js"
     },
     {
       "source": "/api/auth/signup",
-      "destination": "/api-functions/auth/signup.js"
+      "destination": "/api/auth/signup.js"
     },
     {
       "source": "/api/auth/signin",
-      "destination": "/api-functions/auth/signin.js"
+      "destination": "/api/auth/signin.js"
     },
     {
       "source": "/api/auth/signout",
-      "destination": "/api-functions/auth/signout.js"
+      "destination": "/api/auth/signout.js"
+    },
+    {
+      "source": "/api/users",
+      "destination": "/api/users.js"
     },
     {
       "source": "/api/test",
-      "destination": "/api-functions/test.js"
-    },
-    {
-      "source": "/api/seed-data",
-      "destination": "/api-functions/seed-data.js"
+      "destination": "/api/test.js"
     },
     {
       "source": "/(.*)",

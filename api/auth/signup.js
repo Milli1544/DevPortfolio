@@ -64,7 +64,7 @@ const userSchema = new mongoose.Schema({
 // Encrypt password using bcrypt
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
-    next();
+    return next();
   }
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
@@ -132,11 +132,15 @@ module.exports = async (req, res) => {
         });
       }
 
-      // Create user
+      // Hash password before creating user
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      // Create user with hashed password
       const user = await User.create({
         name,
         email,
-        password,
+        password: hashedPassword,
       });
 
       // Create token

@@ -19,6 +19,7 @@ import {
 import axios from "axios";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "../../config/api";
 import ProjectForm from "./ProjectForm";
 import QualificationForm from "./QualificationForm";
 import UserManagement from "./UserManagement";
@@ -62,17 +63,17 @@ const AdminDashboard = () => {
       const token = localStorage.getItem("token");
 
       const [projectsRes, qualificationsRes, contactsRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/projects", {
+        axios.get(API_ENDPOINTS.PROJECTS, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
-        axios.get("http://localhost:5000/api/qualifications", {
+        axios.get(API_ENDPOINTS.QUALIFICATIONS, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
-        axios.get("http://localhost:5000/api/contacts", {
+        axios.get(API_ENDPOINTS.CONTACTS, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -109,7 +110,7 @@ const AdminDashboard = () => {
         },
       };
 
-      await axios.delete(`http://localhost:5000/api/projects/${id}`, config);
+      await axios.delete(`${API_ENDPOINTS.PROJECTS}/${id}`, config);
       setProjects(projects.filter((project) => project._id !== id));
     } catch (error) {
       console.error("Error deleting project:", error);
@@ -129,10 +130,7 @@ const AdminDashboard = () => {
         },
       };
 
-      await axios.delete(
-        `http://localhost:5000/api/qualifications/${id}`,
-        config
-      );
+      await axios.delete(`${API_ENDPOINTS.QUALIFICATIONS}/${id}`, config);
       setQualifications(qualifications.filter((qual) => qual._id !== id));
     } catch (error) {
       console.error("Error deleting qualification:", error);
@@ -154,7 +152,7 @@ const AdminDashboard = () => {
         },
       };
 
-      await axios.delete(`http://localhost:5000/api/contacts/${id}`, config);
+      await axios.delete(`${API_ENDPOINTS.CONTACTS}/${id}`, config);
       setContacts(contacts.filter((contact) => contact._id !== id));
     } catch (error) {
       console.error("Error deleting contact:", error);

@@ -16,6 +16,7 @@ import {
   EyeOff,
 } from "lucide-react";
 import axios from "axios";
+import { API_ENDPOINTS } from "../../config/api";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -40,10 +41,7 @@ const UserManagement = () => {
         },
       };
 
-      const response = await axios.get(
-        "http://localhost:5000/api/users",
-        config
-      );
+      const response = await axios.get(API_ENDPOINTS.USERS, config);
       setUsers(response.data.data || []);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -64,7 +62,7 @@ const UserManagement = () => {
         },
       };
 
-      await axios.delete(`http://localhost:5000/api/users/${userId}`, config);
+      await axios.delete(`${API_ENDPOINTS.USERS}/${userId}`, config);
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -82,7 +80,7 @@ const UserManagement = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:5000/api/users/${userId}`,
+        `${API_ENDPOINTS.USERS}/${userId}`,
         updatedData,
         config
       );
