@@ -24,14 +24,14 @@ module.exports = async (req, res) => {
         has_mongodb_uri: !!process.env.MONGODB_URI,
         has_jwt_secret: !!process.env.JWT_SECRET,
         node_env: process.env.NODE_ENV,
-      }
+      },
     });
   } catch (error) {
     console.error("Health check error:", error);
     res.status(500).json({
       status: "error",
       message: "Health check failed",
-      error: error.message
+      error: error.message,
     });
   }
 };
