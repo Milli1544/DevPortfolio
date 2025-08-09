@@ -13,18 +13,27 @@ module.exports = async (req, res) => {
   }
 
   try {
+    // Import mongoose only when needed
+    const mongoose = require("mongoose");
+    require("dotenv").config();
+
     // Check if MongoDB URI is available
     if (!process.env.MONGODB_URI) {
+      console.error("MONGODB_URI not found in environment variables");
       return res.status(500).json({
         success: false,
         message: "MongoDB URI not configured",
         error: "Please set MONGODB_URI environment variable in Vercel",
+        debug: {
+          env_vars: {
+            has_mongodb_uri: !!process.env.MONGODB_URI,
+            has_jwt_secret: !!process.env.JWT_SECRET,
+            node_env: process.env.NODE_ENV,
+            vercel: !!process.env.VERCEL,
+          }
+        }
       });
     }
-
-    // Import mongoose only when needed
-    const mongoose = require("mongoose");
-    require("dotenv").config();
 
     // MongoDB connection
     const connectDB = async () => {
