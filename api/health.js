@@ -13,20 +13,13 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Load environment variables safely
-    let envVars = {};
-    try {
-      require("dotenv").config();
-      envVars = {
-        has_mongodb_uri: !!process.env.MONGODB_URI,
-        has_jwt_secret: !!process.env.JWT_SECRET,
-        node_env: process.env.NODE_ENV,
-        vercel: !!process.env.VERCEL,
-      };
-    } catch (envError) {
-      console.error("Environment loading error:", envError);
-      envVars = { error: "Failed to load environment variables" };
-    }
+    // Environment variables are automatically loaded by Vercel
+    const envVars = {
+      has_mongodb_uri: !!process.env.MONGODB_URI,
+      has_jwt_secret: !!process.env.JWT_SECRET,
+      node_env: process.env.NODE_ENV,
+      vercel: !!process.env.VERCEL,
+    };
 
     // Basic health check without MongoDB dependency
     res.status(200).json({
@@ -44,7 +37,7 @@ module.exports = async (req, res) => {
             key.includes("NODE") ||
             key.includes("VERCEL")
         ),
-        dotenv_loaded: typeof require !== "undefined",
+        environment_loaded: true,
       },
     });
   } catch (error) {
