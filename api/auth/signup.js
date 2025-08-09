@@ -89,13 +89,26 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 module.exports = async (req, res) => {
-  // Set CORS headers
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  // Set CORS headers - more comprehensive configuration
+  const allowedOrigins = [
+    "https://dev-portfolio-ajsa.vercel.app",
+    "https://dev-portfolio-ajsa-git-760186-millionkifleyesus-4084s-projects.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:5178",
+    "http://localhost:3000"
+  ];
+  
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  }
+  
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "86400");
 
   // Handle preflight requests
   if (req.method === "OPTIONS") {
