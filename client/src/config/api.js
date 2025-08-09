@@ -6,6 +6,7 @@ const API_BASE_URL =
     : "http://localhost:5000");
 
 // Force the correct API URL in production to prevent CORS issues
+// This ensures we always use the correct API URL regardless of build-time environment
 const FORCED_API_URL = import.meta.env.PROD
   ? "https://dev-portfolio-ajsa.vercel.app"
   : API_BASE_URL;
