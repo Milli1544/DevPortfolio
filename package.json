@@ -4,7 +4,9 @@
   "description": "Portfolio website with serverless API functions",
   "private": true,
   "scripts": {
-    "vercel-build": "echo 'Using serverless functions and pre-built static files'"
+    "vercel-build": "cd client && npm install && npm run build",
+    "build": "cd client && npm run build",
+    "dev": "cd client && npm run dev"
   },
   "dependencies": {
     "axios": "^1.11.0",

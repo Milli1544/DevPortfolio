@@ -1,9 +1,9 @@
 {
   "version": 2,
   "framework": null,
-  "buildCommand": "",
-  "outputDirectory": ".",
-  "installCommand": "echo 'No installation required'",
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "client/dist",
+  "installCommand": "npm install",
   "functions": {
     "api/health.js": {
       "runtime": "@vercel/node@2.15.9",
