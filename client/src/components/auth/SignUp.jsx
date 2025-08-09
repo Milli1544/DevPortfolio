@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { User, Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { User, Mail as MailIcon, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 import Silk from "../Silk";
 
 const SignUp = () => {
@@ -177,7 +177,7 @@ const SignUp = () => {
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-400" />
+                  <MailIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-400" />
                   <input
                     type="email"
                     id="email"

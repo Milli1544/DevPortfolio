@@ -4,7 +4,7 @@ import {
   Edit,
   Trash2,
   Users,
-  Mail,
+  Mail as MailIcon,
   Calendar,
   Shield,
   User,
@@ -343,7 +343,7 @@ const UserManagement = () => {
                                 {user.name}
                               </div>
                               <div className="text-indigo-300 text-sm flex items-center gap-1">
-                                <Mail className="w-3 h-3" />
+                                <MailIcon className="w-3 h-3" />
                                 {user.email}
                               </div>
                             </div>

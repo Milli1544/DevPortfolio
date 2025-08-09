@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import {
   CheckCircle2,
   Send,
-  Mail,
+  Mail as MailIcon,
   Phone,
   MapPin,
   Linkedin,
@@ -196,7 +196,7 @@ const Contact = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                icon: <Mail size={32} />,
+                icon: <MailIcon size={32} />,
                 title: "Email",
                 value: "mili.kifleyesus@gmail.com",
                 link: "mailto:mili.kifleyesus@gmail.com",

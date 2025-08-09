@@ -9,7 +9,7 @@ import {
   Users,
   MessageSquare,
   Calendar,
-  Mail,
+  Mail as MailIcon,
   Phone,
   ExternalLink,
   X,
@@ -619,7 +619,7 @@ const AdminDashboard = () => {
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center gap-4">
                             <div className="w-12 h-12 bg-rose-500/10 rounded-full flex items-center justify-center">
-                              <Mail className="w-6 h-6 text-rose-400" />
+                              <MailIcon className="w-6 h-6 text-rose-400" />
                             </div>
                             <div>
                               <h4 className="text-lg font-semibold text-white">
@@ -627,7 +627,7 @@ const AdminDashboard = () => {
                               </h4>
                               <div className="flex items-center gap-4 text-sm text-indigo-300">
                                 <span className="flex items-center gap-1">
-                                  <Mail className="w-4 h-4" />
+                                  <MailIcon className="w-4 h-4" />
                                   {contact.email}
                                 </span>
                                 {contact.phone && (

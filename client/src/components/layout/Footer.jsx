@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Mail, Code } from "lucide-react";
+import { Github, Linkedin, Mail as MailIcon, Code } from "lucide-react";
 
 const Footer = ({ className = "" }) => {
   const currentYear = new Date().getFullYear();
@@ -55,7 +55,7 @@ const Footer = ({ className = "" }) => {
                 className="p-2 rounded-lg bg-gradient-to-r from-indigo-400/10 to-violet-400/10 border border-indigo-400/20 text-indigo-400 hover:text-white hover:bg-gradient-to-r hover:from-indigo-400 hover:to-violet-400 transition-all duration-300"
                 aria-label="Email"
               >
-                <Mail size={20} />
+                <MailIcon size={20} />
               </a>
             </div>
           </div>
