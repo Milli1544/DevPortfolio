@@ -33,6 +33,10 @@
       "runtime": "@vercel/node@2.15.9",
       "maxDuration": 30
     },
+    "api/minimal-test.js": {
+      "runtime": "@vercel/node@2.15.9",
+      "maxDuration": 30
+    },
 
     "api/auth/signin.js": {
       "runtime": "@vercel/node@2.15.9",
@@ -96,9 +100,13 @@
       "source": "/api/test-simple",
       "destination": "/api/simple-test.js"
     },
+    {
+      "source": "/api/minimal-test",
+      "destination": "/api/minimal-test.js"
+    },
 
     {
-      "source": "/((?!api/).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
