@@ -117,11 +117,18 @@ router.put("/:id", auth, async (req, res) => {
       });
     }
 
-    const { name, email, role } = req.body;
+    const { name, email, role, password } = req.body;
     const updateData = {};
 
     if (name) updateData.name = name;
     if (email) updateData.email = email;
+
+    // Handle password update
+    if (password) {
+      const bcrypt = require("bcryptjs");
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(password, salt);
+    }
 
     // Only admin can change roles
     if (role && req.user.role === "admin") {

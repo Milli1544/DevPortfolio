@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Edit,
@@ -52,7 +52,12 @@ const UserManagement = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this user? This action cannot be undone."
+      )
+    )
+      return;
 
     try {
       const token = localStorage.getItem("token");
@@ -64,9 +69,12 @@ const UserManagement = () => {
 
       await axios.delete(`${API_ENDPOINTS.USERS}/${userId}`, config);
       setUsers(users.filter((user) => user._id !== userId));
+      console.log("User deleted successfully");
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert("Failed to delete user");
+      const errorMessage =
+        error.response?.data?.message || "Failed to delete user";
+      alert(errorMessage);
     }
   };
 
@@ -89,13 +97,32 @@ const UserManagement = () => {
         users.map((user) => (user._id === userId ? response.data.data : user))
       );
       setEditingUser(null);
+
+      // Show success message
+      const message = updatedData.password
+        ? "User updated successfully with new password"
+        : "User updated successfully";
+      console.log(message);
     } catch (error) {
       console.error("Error updating user:", error);
-      alert("Failed to update user");
+      const errorMessage =
+        error.response?.data?.message || "Failed to update user";
+      alert(errorMessage);
     }
   };
 
   const startEditing = (user) => {
+    // Get current user from localStorage
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+    // Prevent editing own account from admin panel
+    if (currentUser._id === user._id) {
+      alert(
+        "You cannot edit your own account from the admin panel. Please use your profile settings instead."
+      );
+      return;
+    }
+
     setEditingUser({
       ...user,
       password: "", // Don't show current password
@@ -153,6 +180,11 @@ const UserManagement = () => {
     return role === "admin"
       ? "bg-purple-500/10 text-purple-300 border-purple-500/20"
       : "bg-blue-500/10 text-blue-300 border-blue-500/20";
+  };
+
+  const isCurrentUser = (user) => {
+    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+    return currentUser._id === user._id;
   };
 
   if (loading) {
@@ -275,7 +307,11 @@ const UserManagement = () => {
                     key={user._id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="hover:bg-white/5 transition-colors"
+                    className={`hover:bg-white/5 transition-colors ${
+                      isCurrentUser(user)
+                        ? "bg-indigo-500/5 border-l-4 border-indigo-500"
+                        : ""
+                    }`}
                   >
                     <td className="px-6 py-4">
                       {editingUser?._id === user._id ? (
@@ -339,8 +375,13 @@ const UserManagement = () => {
                               <Users className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                              <div className="text-white font-medium">
+                              <div className="text-white font-medium flex items-center gap-2">
                                 {user.name}
+                                {isCurrentUser(user) && (
+                                  <span className="text-xs bg-indigo-500/20 text-indigo-300 px-2 py-1 rounded-full">
+                                    You
+                                  </span>
+                                )}
                               </div>
                               <div className="text-indigo-300 text-sm flex items-center gap-1">
                                 <MailIcon className="w-3 h-3" />

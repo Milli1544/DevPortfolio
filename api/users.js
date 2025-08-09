@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 // MongoDB connection
@@ -165,7 +166,7 @@ module.exports = async (req, res) => {
       // Handle user updates
       await auth(req, res, async () => {
         const { id } = req.query;
-        const { name, email, role } = req.body;
+        const { name, email, role, password } = req.body;
 
         // Check if user is admin or updating their own profile
         if (req.user.role !== "admin" && req.user._id.toString() !== id) {
@@ -178,6 +179,13 @@ module.exports = async (req, res) => {
         const updateData = {};
         if (name) updateData.name = name;
         if (email) updateData.email = email;
+
+        // Handle password update
+        if (password) {
+          // Hash the new password
+          const salt = await bcrypt.genSalt(10);
+          updateData.password = await bcrypt.hash(password, salt);
+        }
 
         // Only admin can change roles
         if (role && req.user.role === "admin") {
