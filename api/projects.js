@@ -1,14 +1,20 @@
 module.exports = async (req, res) => {
-  // Setup CORS
-  const setupCORS = require("./utils/cors");
-  if (setupCORS(req, res)) {
-    return; // Preflight request handled
+  // Set CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // Handle preflight requests
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
   }
 
   try {
     // Import mongoose only when needed
     const mongoose = require("mongoose");
-    require("dotenv").config();
 
     // Check if MongoDB URI is available
     if (!process.env.MONGODB_URI) {

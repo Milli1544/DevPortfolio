@@ -13,40 +13,25 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Environment variables are automatically loaded by Vercel
-    const envVars = {
-      has_mongodb_uri: !!process.env.MONGODB_URI,
-      has_jwt_secret: !!process.env.JWT_SECRET,
-      node_env: process.env.NODE_ENV,
-      vercel: !!process.env.VERCEL,
-    };
-
-    // Basic health check without MongoDB dependency
+    // Simple health check without any complex operations
     res.status(200).json({
       status: "ok",
       timestamp: new Date().toISOString(),
+      message: "Health check successful",
       environment: process.env.NODE_ENV || "development",
       vercel: !!process.env.VERCEL,
-      message: "Health check successful",
-      env_vars: envVars,
-      debug: {
-        process_env_keys: Object.keys(process.env).filter(
-          (key) =>
-            key.includes("MONGODB") ||
-            key.includes("JWT") ||
-            key.includes("NODE") ||
-            key.includes("VERCEL")
-        ),
-        environment_loaded: true,
-      },
+      env_check: {
+        has_mongodb_uri: !!process.env.MONGODB_URI,
+        has_jwt_secret: !!process.env.JWT_SECRET,
+        node_env: process.env.NODE_ENV,
+      }
     });
   } catch (error) {
     console.error("Health check error:", error);
     res.status(500).json({
       status: "error",
       message: "Health check failed",
-      error: error.message,
-      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+      error: error.message
     });
   }
 };
