@@ -37,11 +37,15 @@ module.exports = async (req, res) => {
       message: "Health check successful",
       env_vars: envVars,
       debug: {
-        process_env_keys: Object.keys(process.env).filter(key => 
-          key.includes('MONGODB') || key.includes('JWT') || key.includes('NODE') || key.includes('VERCEL')
+        process_env_keys: Object.keys(process.env).filter(
+          (key) =>
+            key.includes("MONGODB") ||
+            key.includes("JWT") ||
+            key.includes("NODE") ||
+            key.includes("VERCEL")
         ),
-        dotenv_loaded: typeof require !== 'undefined'
-      }
+        dotenv_loaded: typeof require !== "undefined",
+      },
     });
   } catch (error) {
     console.error("Health check error:", error);
@@ -49,7 +53,7 @@ module.exports = async (req, res) => {
       status: "error",
       message: "Health check failed",
       error: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
     });
   }
 };
